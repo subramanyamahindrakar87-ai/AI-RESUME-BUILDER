@@ -4,7 +4,6 @@ import { Navbar } from './components/Navbar';
 import { LandingPage } from './components/LandingPage';
 import { FormWizard } from './components/FormBuilder/FormWizard';
 import { PortfolioPage } from './components/PortfolioView/PortfolioPage';
-import { ThreeDDeck } from './components/3DLayout/ThreeDDeck';
 import { ApiKeyModal } from './components/ApiKeyModal';
 import { PreviewModal } from './components/PreviewModal';
 import { exportToPdf } from './utils/pdfExporter';
@@ -62,73 +61,69 @@ export function App() {
         onTogglePreview={() => setIsPreviewModalOpen(true)}
       />
 
-      {/* 3D Perspective Stage Container */}
-      <ThreeDDeck activeView={activeView} setActiveView={setActiveView}>
-        <div className="pb-16">
-          {activeView === 'landing' && (
-            <div className="animate-fadeIn">
-              <LandingPage onGetStarted={() => setActiveView('builder')} />
-            </div>
-          )}
+      {/* Main View Container */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        
+        {activeView === 'landing' && (
+          <LandingPage onGetStarted={() => setActiveView('builder')} />
+        )}
 
-          {activeView === 'builder' && (
-            <div className="space-y-6 animate-fadeIn">
-              
-              {/* Subheader bar */}
-              <div className="flex flex-wrap items-center justify-between gap-4 glass-panel p-4 rounded-2xl border border-slate-800">
-                <div>
-                  <h2 className="text-xl font-black text-white tracking-tight flex items-center gap-2">
-                    <Sparkles className="w-5 h-5 text-indigo-400" />
-                    Interactive Resume & Portfolio Editor
-                  </h2>
-                  <p className="text-xs text-slate-400">Fill out your details below to live-generate your resume and personal website.</p>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={handleResetData}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-slate-200 hover:bg-slate-800 border border-slate-800 transition-colors"
-                    title="Reset to sample data"
-                  >
-                    <RotateCcw className="w-3.5 h-3.5" />
-                    <span>Reset Sample</span>
-                  </button>
-
-                  <button
-                    onClick={() => setIsPreviewModalOpen(true)}
-                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 transition-all"
-                  >
-                    <Eye className="w-3.5 h-3.5" />
-                    <span>Full Screen Preview</span>
-                  </button>
-                </div>
+        {activeView === 'builder' && (
+          <div className="space-y-6">
+            
+            {/* Subheader bar */}
+            <div className="flex flex-wrap items-center justify-between gap-4 glass-panel p-4 rounded-2xl border border-slate-800">
+              <div>
+                <h2 className="text-xl font-black text-white tracking-tight flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-indigo-400" />
+                  Interactive Resume & Portfolio Editor
+                </h2>
+                <p className="text-xs text-slate-400">Fill out your details below to live-generate your resume and personal website.</p>
               </div>
 
-              {/* Form Wizard & Live Split Preview */}
-              <FormWizard
-                resumeData={resumeData}
-                setResumeData={setResumeData}
-                apiKey={apiKey}
-                onTogglePreview={() => setIsPreviewModalOpen(true)}
-              />
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handleResetData}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-slate-200 hover:bg-slate-800 border border-slate-800 transition-colors"
+                  title="Reset to sample data"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  <span>Reset Sample</span>
+                </button>
 
-              {/* Hidden live target element for PDF Export */}
-              <div className="hidden">
-                <div id="main-resume-live-preview">
-                  <TemplateSwitcher data={resumeData} />
-                </div>
+                <button
+                  onClick={() => setIsPreviewModalOpen(true)}
+                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 transition-all"
+                >
+                  <Eye className="w-3.5 h-3.5" />
+                  <span>Full Screen Preview</span>
+                </button>
               </div>
-
             </div>
-          )}
 
-          {activeView === 'portfolio' && (
-            <div className="animate-fadeIn">
-              <PortfolioPage resumeData={resumeData} onEditResume={() => setActiveView('builder')} />
+            {/* Form Wizard & Live Split Preview */}
+            <FormWizard
+              resumeData={resumeData}
+              setResumeData={setResumeData}
+              apiKey={apiKey}
+              onTogglePreview={() => setIsPreviewModalOpen(true)}
+            />
+
+            {/* Hidden live target element for PDF Export */}
+            <div className="hidden">
+              <div id="main-resume-live-preview">
+                <TemplateSwitcher data={resumeData} />
+              </div>
             </div>
-          )}
-        </div>
-      </ThreeDDeck>
+
+          </div>
+        )}
+
+        {activeView === 'portfolio' && (
+          <PortfolioPage resumeData={resumeData} onEditResume={() => setActiveView('builder')} />
+        )}
+
+      </main>
 
       {/* Modals */}
       <ApiKeyModal
