@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Phone, MapPin, Globe, Linkedin, Github } from 'lucide-react';
+import { Mail, Phone, MapPin, Globe, Linkedin, Github, Languages } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 
 export const ModernTemplate = ({ data }) => {
@@ -54,6 +54,11 @@ export const ModernTemplate = ({ data }) => {
               {personalInfo.location && (
                 <span className="flex items-center gap-1">
                   <MapPin className="w-3.5 h-3.5 text-slate-400" /> {personalInfo.location}
+                </span>
+              )}
+              {personalInfo.languages && (
+                <span className="flex items-center gap-1">
+                  <Languages className="w-3.5 h-3.5 text-slate-400" /> {personalInfo.languages}
                 </span>
               )}
               {personalInfo.website && (

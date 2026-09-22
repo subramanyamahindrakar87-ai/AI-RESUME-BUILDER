@@ -17,7 +17,8 @@ import {
   Copy,
   Check,
   Code,
-  Layers
+  Layers,
+  Languages
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -169,6 +170,11 @@ export const PortfolioPage = ({ resumeData }) => {
             {personalInfo.location && (
               <span className="flex items-center gap-1">
                 <MapPin className="w-3.5 h-3.5 text-indigo-400" /> {personalInfo.location}
+              </span>
+            )}
+            {personalInfo.languages && (
+              <span className="flex items-center gap-1">
+                <Languages className="w-3.5 h-3.5 text-indigo-400" /> {personalInfo.languages}
               </span>
             )}
             {personalInfo.email && (

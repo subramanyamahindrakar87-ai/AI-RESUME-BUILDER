@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, Mail, Phone, MapPin, Globe, Linkedin, Github, Sparkles, Loader2 } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Globe, Linkedin, Github, Sparkles, Loader2, Languages } from 'lucide-react';
 import { generateProfessionalSummary } from '../../services/aiService';
 
 export const StepPersonalInfo = ({ data, onChange, apiKey }) => {
@@ -243,6 +243,19 @@ export const StepPersonalInfo = ({ data, onChange, apiKey }) => {
             value={data.personalInfo.customLink || ''}
             onChange={(e) => handleChange('customLink', e.target.value)}
             placeholder="https://drive.google.com/your-file"
+            className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 transition-all"
+          />
+        </div>
+
+        <div>
+          <label className="block text-xs font-semibold text-slate-300 mb-1 flex items-center gap-1">
+            <Languages className="w-3.5 h-3.5 text-slate-400" /> Languages Spoken / Known
+          </label>
+          <input
+            type="text"
+            value={data.personalInfo.languages || ''}
+            onChange={(e) => handleChange('languages', e.target.value)}
+            placeholder="e.g. English (Native), Spanish (Fluent), French (Basic)"
             className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 transition-all"
           />
         </div>
