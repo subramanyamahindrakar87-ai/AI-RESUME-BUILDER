@@ -10,7 +10,7 @@ export const initialResumeData = {
     github: "https://github.com/alexmorgan-dev",
     twitter: "https://x.com/alexmorgan_dev",
     customLink: "https://drive.google.com/your-portfolio-pdf",
-    profilePicture: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
+    profilePicture: "/images/portfolio_3d_avatar.jpg",
     languages: "English (Native), Spanish (Professional Working), French (Basic)",
     summary: "High-impact Full Stack Engineer with 6+ years of experience designing scalable web applications, microservices, and AI-driven solutions. Proven track record of reducing latency by 45% and leading cross-functional teams to deliver enterprise products."
   },

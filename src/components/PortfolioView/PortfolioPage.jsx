@@ -148,20 +148,29 @@ export const PortfolioPage = ({ resumeData, onEditResume }) => {
         </div>
       </div>
 
-      {/* Hero Section */}
+      {/* Hero Section with 3D Avatar & Glassmorphic Stage */}
       <section className="relative overflow-hidden pt-12 pb-16 px-4">
         <div className="absolute inset-0 glow-gradient pointer-events-none" />
         <div className="max-w-4xl mx-auto text-center space-y-6 relative z-10">
           
-          {personalInfo.profilePicture && (
-            <div className="w-28 h-28 rounded-full overflow-hidden mx-auto border-4 border-indigo-500/40 shadow-2xl">
-              <img src={personalInfo.profilePicture} alt={personalInfo.fullName} className="w-full h-full object-cover" />
+          {/* 3D Holographic Avatar Frame */}
+          <div className="relative w-36 h-36 mx-auto group cursor-pointer">
+            <div className="absolute -inset-2 rounded-3xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-70 blur-lg group-hover:opacity-100 transition-opacity animate-pulse" />
+            <div className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-indigo-400/50 shadow-2xl glass-card-3d p-1">
+              <img 
+                src={personalInfo.profilePicture || "/images/portfolio_3d_avatar.jpg"} 
+                alt={personalInfo.fullName || "Avatar"} 
+                className="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-110"
+              />
             </div>
-          )}
+            <div className="absolute -bottom-2 -right-2 px-2.5 py-0.5 rounded-full bg-indigo-600 text-white text-[10px] font-bold shadow-lg border border-indigo-300">
+              3D AI Avatar
+            </div>
+          </div>
 
-          <div className={`inline-flex items-center gap-2 px-3.5 py-1 rounded-full border text-xs font-semibold ${badgeStyle}`}>
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Available for New Opportunities</span>
+          <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-xs font-semibold ${badgeStyle} shadow-lg shadow-indigo-500/10`}>
+            <Sparkles className="w-4 h-4 text-indigo-400 animate-spin" style={{ animationDuration: '8s' }} />
+            <span>Available for Senior Software & AI Roles</span>
           </div>
 
           <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight">
@@ -173,25 +182,25 @@ export const PortfolioPage = ({ resumeData, onEditResume }) => {
           </p>
 
           {personalInfo.summary && (
-            <p className="text-sm sm:text-base opacity-75 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-sm sm:text-base opacity-85 max-w-2xl mx-auto leading-relaxed">
               {personalInfo.summary}
             </p>
           )}
 
           {/* Location & Quick Contact */}
-          <div className="flex flex-wrap justify-center items-center gap-4 text-xs font-medium opacity-80 pt-2">
+          <div className="flex flex-wrap justify-center items-center gap-4 text-xs font-medium opacity-90 pt-2">
             {personalInfo.location && (
-              <span className="flex items-center gap-1">
+              <span className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-slate-900/80 border border-slate-800">
                 <MapPin className="w-3.5 h-3.5 text-indigo-400" /> {personalInfo.location}
               </span>
             )}
             {personalInfo.languages && (
-              <span className="flex items-center gap-1">
+              <span className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-slate-900/80 border border-slate-800">
                 <Languages className="w-3.5 h-3.5 text-indigo-400" /> {personalInfo.languages}
               </span>
             )}
             {personalInfo.email && (
-              <button onClick={handleCopyEmail} className="flex items-center gap-1 hover:opacity-100 transition-opacity">
+              <button onClick={handleCopyEmail} className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-indigo-500/50 transition-all">
                 <Mail className="w-3.5 h-3.5 text-indigo-400" /> {personalInfo.email}
                 {copiedEmail ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3 opacity-50" />}
               </button>
@@ -199,19 +208,19 @@ export const PortfolioPage = ({ resumeData, onEditResume }) => {
           </div>
 
           {/* Social Links Buttons */}
-          <div className="flex justify-center items-center gap-3 pt-4">
+          <div className="flex justify-center items-center gap-3 pt-3">
             {personalInfo.github && (
-              <a href={personalInfo.github} target="_blank" rel="noreferrer" className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-all">
+              <a href={personalInfo.github} target="_blank" rel="noreferrer" className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-indigo-500/50 hover:scale-110 transition-all shadow-lg">
                 <Github className="w-5 h-5" />
               </a>
             )}
             {personalInfo.linkedin && (
-              <a href={personalInfo.linkedin} target="_blank" rel="noreferrer" className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-all">
+              <a href={personalInfo.linkedin} target="_blank" rel="noreferrer" className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-indigo-500/50 hover:scale-110 transition-all shadow-lg">
                 <Linkedin className="w-5 h-5" />
               </a>
             )}
             {personalInfo.website && (
-              <a href={personalInfo.website} target="_blank" rel="noreferrer" className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-all">
+              <a href={personalInfo.website} target="_blank" rel="noreferrer" className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-indigo-500/50 hover:scale-110 transition-all shadow-lg">
                 <Globe className="w-5 h-5" />
               </a>
             )}
@@ -220,31 +229,45 @@ export const PortfolioPage = ({ resumeData, onEditResume }) => {
         </div>
       </section>
 
-      {/* Projects Showcase */}
+      {/* 3D Projects Showcase */}
       {projects && projects.length > 0 && (
         <section className="max-w-5xl mx-auto px-4 py-12 space-y-8 border-t border-slate-800/60">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-extrabold flex items-center gap-2">
-                <FolderGit2 className="w-6 h-6 text-indigo-400" /> Featured Projects
+                <FolderGit2 className="w-6 h-6 text-indigo-400" /> Featured 3D Applications & Solutions
               </h2>
-              <p className="text-xs opacity-70">Applications & open-source solutions engineered by me</p>
+              <p className="text-xs opacity-70">Interactive software projects and cloud systems engineered by me</p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {projects.map((proj, pIdx) => (
-              <div key={pIdx} className="glass-panel rounded-2xl p-6 border border-slate-800 hover:border-indigo-500/40 transition-all duration-300 space-y-4 group">
+              <div key={pIdx} className="glass-card-3d rounded-2xl p-5 border border-slate-800 hover:border-indigo-500/60 transition-all duration-300 space-y-4 group">
+                
+                {/* 3D Project Preview Graphic Banner */}
+                <div className="h-44 rounded-xl overflow-hidden relative border border-slate-700/50 shadow-inner group-hover:shadow-indigo-500/20 transition-all">
+                  <img 
+                    src={pIdx === 0 ? "/images/portfolio_3d_project.jpg" : "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80"} 
+                    alt={proj.title} 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+                  <span className="absolute bottom-3 left-3 px-2.5 py-0.5 rounded-full bg-indigo-600/80 backdrop-blur-md text-white text-[10px] font-bold border border-indigo-400/40">
+                    3D Glass Showcase
+                  </span>
+                </div>
+
                 <div className="flex items-start justify-between gap-4">
                   <h3 className="text-lg font-bold group-hover:text-indigo-300 transition-colors">{proj.title}</h3>
                   <div className="flex items-center gap-2">
                     {proj.github && (
-                      <a href={proj.github} target="_blank" rel="noreferrer" className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800">
+                      <a href={proj.github} target="_blank" rel="noreferrer" className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors">
                         <Github className="w-4 h-4" />
                       </a>
                     )}
                     {proj.liveDemo && (
-                      <a href={proj.liveDemo} target="_blank" rel="noreferrer" className="p-1.5 rounded-lg text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10">
+                      <a href={proj.liveDemo} target="_blank" rel="noreferrer" className="p-1.5 rounded-lg text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/20 transition-colors">
                         <ExternalLink className="w-4 h-4" />
                       </a>
                     )}
@@ -254,7 +277,7 @@ export const PortfolioPage = ({ resumeData, onEditResume }) => {
                 <p className="text-xs opacity-85 leading-relaxed">{proj.description}</p>
 
                 {proj.techStack && (
-                  <div className="flex flex-wrap gap-1.5 pt-2">
+                  <div className="flex flex-wrap gap-1.5 pt-1">
                     {proj.techStack.map((tech, tIdx) => (
                       <span key={tIdx} className={`px-2.5 py-1 rounded-lg border text-xs font-semibold ${badgeStyle}`}>
                         {tech}
