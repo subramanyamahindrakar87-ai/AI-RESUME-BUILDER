@@ -229,35 +229,12 @@ export const PortfolioPage = ({ resumeData, onEditResume }) => {
         </div>
       </section>
 
-      {/* 3D Projects Showcase */}
+      {/* Projects Showcase */}
       {projects && projects.length > 0 && (
         <section className="max-w-5xl mx-auto px-4 py-12 space-y-8 border-t border-slate-800/60">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-extrabold flex items-center gap-2">
-                <FolderGit2 className="w-6 h-6 text-indigo-400" /> Featured Projects & Solutions
-              </h2>
-              <p className="text-xs opacity-70">Software projects and cloud systems engineered by me</p>
-            </div>
-          </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {projects.map((proj, pIdx) => (
               <div key={pIdx} className="glass-card-3d rounded-2xl p-5 border border-slate-800 hover:border-indigo-500/60 transition-all duration-300 space-y-4 group">
-                
-                {/* 3D Project Preview Graphic Banner */}
-                <div className="h-44 rounded-xl overflow-hidden relative border border-slate-700/50 shadow-inner group-hover:shadow-indigo-500/20 transition-all">
-                  <img 
-                    src={pIdx === 0 ? "/images/portfolio_3d_project.jpg" : "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80"} 
-                    alt={proj.title} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
-                  <span className="absolute bottom-3 left-3 px-2.5 py-0.5 rounded-full bg-indigo-600/80 backdrop-blur-md text-white text-[10px] font-bold border border-indigo-400/40">
-                    3D Glass Showcase
-                  </span>
-                </div>
-
                 <div className="flex items-start justify-between gap-4">
                   <h3 className="text-lg font-bold group-hover:text-indigo-300 transition-colors">{proj.title}</h3>
                   <div className="flex items-center gap-2">
