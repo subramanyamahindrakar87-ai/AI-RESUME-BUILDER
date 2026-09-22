@@ -7,6 +7,7 @@ import { StepProjects } from './StepProjects';
 import { StepCertifications } from './StepCertifications';
 import { StepAITools } from './StepAITools';
 import { StepCoverLetter } from './StepCoverLetter';
+import { StepInterviewPrep } from './StepInterviewPrep';
 import { ResumeScoreCard } from '../ResumeScoreCard';
 
 import { 
@@ -18,6 +19,7 @@ import {
   Award, 
   Target, 
   Mail,
+  MessageSquare,
   ChevronRight, 
   ChevronLeft,
   Palette,
@@ -25,7 +27,9 @@ import {
   Type,
   Maximize2,
   QrCode,
-  Check
+  Check,
+  Download,
+  Upload
 } from 'lucide-react';
 
 const STEPS = [
@@ -36,6 +40,7 @@ const STEPS = [
   { id: 'projects', label: 'Projects', icon: FolderGit2 },
   { id: 'certifications', label: 'Certifications', icon: Award },
   { id: 'coverLetter', label: 'Cover Letter', icon: Mail },
+  { id: 'interviewPrep', label: 'Interview Q&A', icon: MessageSquare },
   { id: 'aiTools', label: 'ATS Matcher', icon: Target },
 ];
 
@@ -70,6 +75,38 @@ export const FormWizard = ({ resumeData, setResumeData, apiKey, onTogglePreview 
         [field]: value
       }
     });
+  };
+
+  const handleExportJson = () => {
+    const jsonStr = JSON.stringify(resumeData, null, 2);
+    const blob = new Blob([jsonStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${(resumeData.personalInfo.fullName || 'resume').toLowerCase().replace(/\s+/g, '_')}_backup.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleImportJson = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        try {
+          const parsed = JSON.parse(evt.target.result);
+          if (parsed && parsed.personalInfo) {
+            setResumeData(parsed);
+            alert("Resume data restored successfully!");
+          } else {
+            alert("Invalid JSON format.");
+          }
+        } catch (err) {
+          alert("Error parsing JSON file.");
+        }
+      };
+      reader.readAsText(file);
+    }
   };
 
   return (
@@ -113,6 +150,7 @@ export const FormWizard = ({ resumeData, setResumeData, apiKey, onTogglePreview 
           {currentStep.id === 'projects' && <StepProjects data={resumeData} onChange={setResumeData} />}
           {currentStep.id === 'certifications' && <StepCertifications data={resumeData} onChange={setResumeData} />}
           {currentStep.id === 'coverLetter' && <StepCoverLetter data={resumeData} onChange={setResumeData} apiKey={apiKey} />}
+          {currentStep.id === 'interviewPrep' && <StepInterviewPrep data={resumeData} apiKey={apiKey} />}
           {currentStep.id === 'aiTools' && <StepAITools data={resumeData} apiKey={apiKey} />}
 
           {/* Navigation Controls */}
@@ -272,6 +310,25 @@ export const FormWizard = ({ resumeData, setResumeData, apiKey, onTogglePreview 
                   />
                 </div>
               )}
+            </div>
+
+            {/* Data Backup & Restore (JSON Export/Import) */}
+            <div className="pt-3 border-t border-slate-800/80 space-y-2">
+              <label className="block text-xs font-bold text-white">Backup & Restore Resume</label>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={handleExportJson}
+                  className="flex items-center justify-center gap-1 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-colors"
+                >
+                  <Download className="w-3.5 h-3.5 text-indigo-400" /> Export JSON
+                </button>
+
+                <label className="flex items-center justify-center gap-1 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 cursor-pointer transition-colors">
+                  <Upload className="w-3.5 h-3.5 text-emerald-400" /> Restore JSON
+                  <input type="file" accept=".json" onChange={handleImportJson} className="hidden" />
+                </label>
+              </div>
             </div>
 
           </div>

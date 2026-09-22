@@ -183,3 +183,57 @@ export const generateCoverLetter = async (targetCompany, targetRole, hiringManag
   // Fallback Smart Cover Letter Generator
   return `Dear ${manager},\n\nI am writing to express my strong enthusiasm for the ${role} position at ${company}. As a ${userTitle} with proven expertise in building scalable, reliable, and high-impact software solutions, I am confident in my ability to make immediate contributions to your engineering team.\n\nMy background includes hands-on leadership in full-stack application development, cloud architecture, and cross-functional team collaboration. In my recent roles, I have consistently focused on delivering robust features, optimizing performance, and translating product requirements into high-quality code.\n\nWhat excites me about ${company} is your commitment to engineering excellence and innovation. I am eager to leverage my technical skill set and problem-solving mindset to help achieve your upcoming product milestones.\n\nThank you for your time and consideration. I would welcome the opportunity to discuss how my experience and passion align with the needs of ${company}.\n\nSincerely,\n${name}`;
 };
+
+export const generateInterviewPrep = async (userResume, apiKey = "") => {
+  const role = userResume.personalInfo.jobTitle || "Software Engineer";
+
+  if (apiKey && apiKey.trim()) {
+    try {
+      const genAI = new GoogleGenerativeAI(apiKey.trim());
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+      const prompt = `Based on this candidate's profile for a ${role}:\nSkills: ${JSON.stringify(userResume.skills)}\nSummary: ${userResume.personalInfo.summary}\n\nGenerate 5 tailored interview questions with STAR method answers in JSON format:\n[\n  {\n    "category": "System Architecture",\n    "question": "How do you handle scaling microservices under high load?",\n    "sampleAnswer": "Situation: At my previous role... Task: ... Action: Implemented Redis caching & connection pooling... Result: Reduced latency by 45%",\n    "keyTip": "Quantify throughput numbers and metrics."\n  }\n]`;
+      const result = await model.generateContent(prompt);
+      const text = result.response.text();
+      const jsonMatch = text.match(/\[[\s\S]*\]/);
+      if (jsonMatch) {
+        return JSON.parse(jsonMatch[0]);
+      }
+    } catch (err) {
+      console.warn("Gemini interview prep error:", err);
+    }
+  }
+
+  // Fallback Smart Interview Prep Questions
+  return [
+    {
+      category: "Behavioral / Leadership",
+      question: `Tell me about a time you led a challenging project as a ${role} and delivered under tight deadlines.`,
+      sampleAnswer: "Situation: Our platform experienced a 3x traffic spike during a major launch. Task: I was responsible for stabilizing database response times without breaking current feature delivery schedules. Action: I benchmarked query paths, introduced Redis caching layers, and mentored 2 junior developers on query tuning. Result: Reduced p99 latency from 420ms to 90ms and completed deployment 2 days ahead of deadline.",
+      keyTip: "Focus on your leadership, delegation, and concrete performance metrics."
+    },
+    {
+      category: "Technical Architecture",
+      question: "How do you structure client-side state management and performance optimization in complex SPA applications?",
+      sampleAnswer: "Situation: Large monolithic React bundles were causing slow LCP times. Task: Refactor state architecture and code-splitting boundaries. Action: Implemented lazy loading for heavy routes, centralized domain state using Redux Toolkit, and memoized expensive layout calculations. Result: Reduced bundle size by 38% and achieved a 95+ Lighthouse score.",
+      keyTip: "Explain tradeoffs between global state vs local component state."
+    },
+    {
+      category: "Problem Solving & Debugging",
+      question: "Describe how you diagnose and resolve an unexpected critical bug or outage in production.",
+      sampleAnswer: "Situation: Experienced intermittent API timeouts affecting 5% of users during peak hours. Task: Isolate root cause across distributed microservices. Action: Analyzed telemetry logs, traced bottleneck to connection pool exhaustion in the database layer, and implemented exponential backoff retries with circuit breakers. Result: Fully resolved timeouts with zero data loss.",
+      keyTip: "Highlight structured diagnostic steps and blameless post-mortem actions."
+    },
+    {
+      category: "AI & Innovation",
+      question: "How do you evaluate and integrate AI APIs or modern frameworks into existing developer workflows?",
+      sampleAnswer: "Situation: Our team needed faster content summarization for user data. Task: Integrate LLM features securely with fallback mechanisms. Action: Integrated Gemini Flash API with structured JSON output schemas, built smart offline fallback rules, and secured API credentials. Result: Accelerated workflow speed by 35% with 99.9% availability.",
+      keyTip: "Emphasize security, fallback handling, and latency optimization."
+    },
+    {
+      category: "Collaboration & Conflict",
+      question: "How do you handle technical disagreements regarding architecture or tech stack choices with team members?",
+      sampleAnswer: "Situation: Differing opinions arose regarding migrating a REST API to GraphQL. Task: Align the engineering team on a unified direction. Action: Conducted a 1-week POC benchmark comparing network payload sizes, developer velocity, and caching complexity, then presented data-driven findings. Result: Reached consensus on a hybrid strategy that satisfied both performance and timeline goals.",
+      keyTip: "Show humility, data-driven decision making, and team cohesion."
+    }
+  ];
+};
