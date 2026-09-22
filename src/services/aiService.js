@@ -277,55 +277,115 @@ export const parseExistingResumeText = async (rawText, apiKey = "") => {
     }
   }
 
-  // Fallback Smart Text Parser (RegEx & Line-by-line extractor)
-  const lines = rawText.split('\n').map(l => l.trim()).filter(Boolean);
-  const fullName = lines[0] || "Extracted Name";
-  const jobTitle = lines[1] || "Software Professional";
-  
+  // Fallback Intelligent Rule-Based Extractor for raw text / extracted PDF
+  const cleanLines = rawText
+    .split('\n')
+    .map(l => l.trim())
+    .filter(Boolean);
+
+  let fullName = cleanLines[0] || "Candidate Name";
+  if (fullName.includes('@') || fullName.includes('http')) {
+    fullName = cleanLines.find(l => !l.includes('@') && !l.includes('http') && l.length < 35) || "Candidate Name";
+  }
+
+  let jobTitle = cleanLines.find(l => l !== fullName && !l.includes('@') && !l.includes('http') && !l.match(/\d{3}/) && l.length < 50) || "Software Professional";
+
   const emailMatch = rawText.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
   const phoneMatch = rawText.match(/(\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/);
   const linkedinMatch = rawText.match(/https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_-]+/i);
   const githubMatch = rawText.match(/https?:\/\/(www\.)?github\.com\/[a-zA-Z0-9_-]+/i);
+  const websiteMatch = rawText.match(/https?:\/\/(?!linkedin|github)[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/[a-zA-Z0-9._-]*)*\/?/i);
+
+  let summary = "";
+  const summaryIdx = cleanLines.findIndex(l => /summary|profile|objective|about me/i.test(l));
+  if (summaryIdx !== -1 && cleanLines[summaryIdx + 1]) {
+    summary = cleanLines.slice(summaryIdx + 1, summaryIdx + 4).join(' ');
+  } else {
+    summary = cleanLines.filter(l => l.length > 35 && !l.includes('@') && !l.includes('http')).slice(0, 2).join(' ') || "Motivated software professional with proven expertise in building scalable, reliable applications.";
+  }
+
+  const techKeywords = [
+    "JavaScript", "TypeScript", "React", "Next.js", "Vue", "Angular", "Node.js", "Python",
+    "Java", "C++", "C#", "HTML", "CSS", "Tailwind", "Bootstrap", "SQL", "PostgreSQL", "MongoDB",
+    "GraphQL", "REST API", "Docker", "Kubernetes", "AWS", "GCP", "Azure", "Git", "CI/CD",
+    "Figma", "Agile", "Scrum", "Redux", "Express", "Microservices", "Jest"
+  ];
+  const foundSkills = techKeywords.filter(kw => new RegExp(`\\b${kw.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}\\b`, 'i').test(rawText));
+
+  const expEntries = [];
+  const expKeywords = ["engineer", "developer", "manager", "lead", "architect", "designer", "consultant", "analyst", "intern", "specialist"];
+  
+  cleanLines.forEach((line, idx) => {
+    if (expKeywords.some(kw => line.toLowerCase().includes(kw)) && line.length < 80) {
+      const bullet1 = cleanLines[idx + 1] || "Engineered scalable features improving overall application performance.";
+      const bullet2 = cleanLines[idx + 2] && cleanLines[idx + 2].length > 15 ? cleanLines[idx + 2] : "Collaborated with cross-functional development teams to deliver product goals.";
+      expEntries.push({
+        id: `exp-${Date.now()}-${idx}`,
+        role: line,
+        company: cleanLines[idx - 1] && !cleanLines[idx - 1].includes('@') ? cleanLines[idx - 1] : "Tech Solutions Inc.",
+        location: "Remote / On-site",
+        startDate: "2022",
+        endDate: "Present",
+        current: true,
+        description: [bullet1, bullet2]
+      });
+    }
+  });
+
+  const eduEntries = [];
+  const eduKeywords = ["bachelor", "master", "degree", "b.s", "m.s", "b.tech", "m.tech", "phd", "university", "college", "institute"];
+  cleanLines.forEach((line, idx) => {
+    if (eduKeywords.some(kw => line.toLowerCase().includes(kw)) && line.length < 100) {
+      eduEntries.push({
+        id: `edu-${Date.now()}-${idx}`,
+        degree: line,
+        institution: cleanLines[idx - 1] || "State University",
+        startDate: "2018",
+        endDate: "2022"
+      });
+    }
+  });
 
   return {
     personalInfo: {
-      fullName,
-      jobTitle,
+      fullName: fullName,
+      jobTitle: jobTitle,
       email: emailMatch ? emailMatch[0] : "",
       phone: phoneMatch ? phoneMatch[0] : "",
       location: "San Francisco, CA",
-      website: "",
+      website: websiteMatch ? websiteMatch[0] : "",
       linkedin: linkedinMatch ? linkedinMatch[0] : "",
       github: githubMatch ? githubMatch[0] : "",
-      summary: lines.slice(2, 5).join(' ') || "Experienced software developer skilled in building scalable applications."
+      summary: summary
     },
-    experience: [
+    experience: expEntries.length > 0 ? expEntries.slice(0, 3) : [
       {
         id: `exp-${Date.now()}`,
         role: jobTitle,
         company: "Tech Enterprise",
         location: "San Francisco, CA",
-        startDate: "2021",
+        startDate: "2022",
         endDate: "Present",
         current: true,
         description: [
-          lines.find(l => l.length > 25 && !l.includes('@')) || "Engineered scalable features improving system performance."
+          "Developed core application features and integrated scalable web architecture.",
+          "Optimized runtime performance and maintained zero-downtime release pipelines."
         ]
       }
     ],
-    education: [
+    education: eduEntries.length > 0 ? eduEntries.slice(0, 2) : [
       {
         id: `edu-${Date.now()}`,
-        degree: "B.S. in Computer Science",
+        degree: "Bachelor of Science in Computer Science",
         institution: "State University",
-        startDate: "2017",
-        endDate: "2021"
+        startDate: "2018",
+        endDate: "2022"
       }
     ],
     skills: [
       {
-        category: "Technical Stack",
-        items: ["JavaScript", "TypeScript", "React", "Node.js", "Python", "SQL"]
+        category: "Technical Stack & Tools",
+        items: foundSkills.length > 0 ? foundSkills : ["JavaScript", "React", "Node.js", "SQL", "Git"]
       }
     ]
   };
