@@ -6,6 +6,7 @@ import { StepSkills } from './StepSkills';
 import { StepProjects } from './StepProjects';
 import { StepCertifications } from './StepCertifications';
 import { StepAITools } from './StepAITools';
+import { StepCoverLetter } from './StepCoverLetter';
 import { ResumeScoreCard } from '../ResumeScoreCard';
 
 import { 
@@ -16,12 +17,15 @@ import {
   FolderGit2, 
   Award, 
   Target, 
+  Mail,
   ChevronRight, 
   ChevronLeft,
   Palette,
   Layout,
   Type,
-  Maximize2
+  Maximize2,
+  QrCode,
+  Check
 } from 'lucide-react';
 
 const STEPS = [
@@ -31,6 +35,7 @@ const STEPS = [
   { id: 'skills', label: 'Skills', icon: Cpu },
   { id: 'projects', label: 'Projects', icon: FolderGit2 },
   { id: 'certifications', label: 'Certifications', icon: Award },
+  { id: 'coverLetter', label: 'Cover Letter', icon: Mail },
   { id: 'aiTools', label: 'ATS Matcher', icon: Target },
 ];
 
@@ -107,6 +112,7 @@ export const FormWizard = ({ resumeData, setResumeData, apiKey, onTogglePreview 
           {currentStep.id === 'skills' && <StepSkills data={resumeData} onChange={setResumeData} />}
           {currentStep.id === 'projects' && <StepProjects data={resumeData} onChange={setResumeData} />}
           {currentStep.id === 'certifications' && <StepCertifications data={resumeData} onChange={setResumeData} />}
+          {currentStep.id === 'coverLetter' && <StepCoverLetter data={resumeData} onChange={setResumeData} apiKey={apiKey} />}
           {currentStep.id === 'aiTools' && <StepAITools data={resumeData} apiKey={apiKey} />}
 
           {/* Navigation Controls */}
@@ -153,7 +159,7 @@ export const FormWizard = ({ resumeData, setResumeData, apiKey, onTogglePreview 
           {/* Template & Visual Customizer Panel */}
           <div className="glass-card rounded-2xl p-5 border border-slate-800 space-y-5">
             <h4 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
-              <Palette className="w-4 h-4 text-indigo-400" /> Design & Template Customizer
+              <Palette className="w-4 h-4 text-indigo-400" /> Design & Theme Customizer
             </h4>
 
             {/* Template Selector */}
@@ -179,22 +185,37 @@ export const FormWizard = ({ resumeData, setResumeData, apiKey, onTogglePreview 
               </div>
             </div>
 
-            {/* Accent Color Palette */}
+            {/* Accent Color Picker (Presets + Custom HEX) */}
             <div className="space-y-2">
-              <label className="block text-xs font-semibold text-slate-300">Accent Color</label>
+              <div className="flex items-center justify-between">
+                <label className="block text-xs font-semibold text-slate-300">Accent Color</label>
+                <div className="flex items-center gap-1 text-[11px] font-mono text-slate-400">
+                  <input
+                    type="color"
+                    value={resumeData.customization.accentColor || '#6366f1'}
+                    onChange={(e) => handleCustomizationChange('accentColor', e.target.value)}
+                    className="w-5 h-5 rounded cursor-pointer bg-transparent border-0"
+                    title="Custom HEX Color Picker"
+                  />
+                  <span>{resumeData.customization.accentColor}</span>
+                </div>
+              </div>
+
               <div className="flex items-center gap-2">
                 {ACCENT_COLORS.map((c) => (
                   <button
                     key={c.hex}
                     onClick={() => handleCustomizationChange('accentColor', c.hex)}
-                    className={`w-7 h-7 rounded-full transition-transform ${
+                    className={`w-7 h-7 rounded-full transition-transform flex items-center justify-center ${
                       resumeData.customization.accentColor === c.hex
                         ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-950 scale-110'
                         : 'hover:scale-105'
                     }`}
                     style={{ backgroundColor: c.hex }}
                     title={c.name}
-                  />
+                  >
+                    {resumeData.customization.accentColor === c.hex && <Check className="w-3.5 h-3.5 text-white" />}
+                  </button>
                 ))}
               </div>
             </div>
@@ -223,6 +244,34 @@ export const FormWizard = ({ resumeData, setResumeData, apiKey, onTogglePreview 
                   </button>
                 ))}
               </div>
+            </div>
+
+            {/* QR Code Feature Options */}
+            <div className="pt-3 border-t border-slate-800/80 space-y-3">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-bold text-white flex items-center gap-1.5">
+                  <QrCode className="w-4 h-4 text-indigo-400" /> Resume QR Code
+                </label>
+                <input
+                  type="checkbox"
+                  checked={Boolean(resumeData.customization.showQrCode)}
+                  onChange={(e) => handleCustomizationChange('showQrCode', e.target.checked)}
+                  className="w-4 h-4 rounded border-slate-700 text-indigo-600 focus:ring-indigo-500 bg-slate-950"
+                />
+              </div>
+
+              {resumeData.customization.showQrCode && (
+                <div className="space-y-1">
+                  <label className="block text-[11px] text-slate-400">QR Scan Target Link</label>
+                  <input
+                    type="text"
+                    value={resumeData.customization.qrCodeTarget || ''}
+                    onChange={(e) => handleCustomizationChange('qrCodeTarget', e.target.value)}
+                    placeholder="https://yourportfolio.dev"
+                    className="w-full px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-indigo-500"
+                  />
+                </div>
+              )}
             </div>
 
           </div>

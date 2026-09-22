@@ -1,26 +1,48 @@
 import React from 'react';
+import { QRCodeSVG } from 'qrcode.react';
 
 export const CreativeTemplate = ({ data }) => {
   const { personalInfo, experience, education, skills, projects, certifications, customization } = data;
   const accent = customization?.accentColor || '#ec4899';
+  const showQr = customization?.showQrCode;
+  const qrTarget = customization?.qrCodeTarget || personalInfo.website || 'https://alexmorgan.dev';
 
   return (
     <div className="w-full bg-slate-50 text-slate-900 p-8 shadow-2xl rounded-sm font-sans leading-relaxed text-xs sm:text-sm min-h-[1050px] space-y-6">
       
       {/* Top Banner Accent Card */}
       <div 
-        className="p-6 rounded-2xl text-white shadow-lg space-y-2"
+        className="p-6 rounded-2xl text-white shadow-lg flex flex-col sm:flex-row justify-between items-center gap-4"
         style={{ backgroundColor: accent }}
       >
-        <h1 className="text-3xl font-extrabold tracking-tight">{personalInfo.fullName || "Your Name"}</h1>
-        <p className="text-sm font-semibold opacity-90">{personalInfo.jobTitle || "Creative Specialist"}</p>
-        
-        <div className="flex flex-wrap gap-4 text-xs pt-2 opacity-95">
-          {personalInfo.email && <span>✉ {personalInfo.email}</span>}
-          {personalInfo.phone && <span>📞 {personalInfo.phone}</span>}
-          {personalInfo.location && <span>📍 {personalInfo.location}</span>}
-          {personalInfo.website && <span>🌐 {personalInfo.website}</span>}
+        <div className="flex items-center gap-4">
+          {personalInfo.profilePicture && (
+            <img 
+              src={personalInfo.profilePicture} 
+              alt={personalInfo.fullName} 
+              className="w-20 h-20 rounded-2xl object-cover border-2 border-white/40 shadow-md shrink-0"
+            />
+          )}
+
+          <div className="space-y-1">
+            <h1 className="text-3xl font-extrabold tracking-tight">{personalInfo.fullName || "Your Name"}</h1>
+            <p className="text-sm font-semibold opacity-90">{personalInfo.jobTitle || "Creative Specialist"}</p>
+            
+            <div className="flex flex-wrap gap-4 text-xs pt-1 opacity-95">
+              {personalInfo.email && <span>✉ {personalInfo.email}</span>}
+              {personalInfo.phone && <span>📞 {personalInfo.phone}</span>}
+              {personalInfo.location && <span>📍 {personalInfo.location}</span>}
+              {personalInfo.website && <span>🌐 {personalInfo.website}</span>}
+            </div>
+          </div>
         </div>
+
+        {showQr && (
+          <div className="bg-white p-2 rounded-xl text-center shrink-0 shadow-md">
+            <QRCodeSVG value={qrTarget} size={60} fgColor="#0f172a" />
+            <span className="text-[8px] font-bold text-slate-700 block mt-0.5 uppercase">Scan QR</span>
+          </div>
+        )}
       </div>
 
       {/* Summary Box */}

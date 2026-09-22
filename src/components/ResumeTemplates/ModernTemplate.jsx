@@ -1,9 +1,12 @@
 import React from 'react';
-import { Mail, Phone, MapPin, Globe, Linkedin, Github, ExternalLink } from 'lucide-react';
+import { Mail, Phone, MapPin, Globe, Linkedin, Github } from 'lucide-react';
+import { QRCodeSVG } from 'qrcode.react';
 
 export const ModernTemplate = ({ data }) => {
   const { personalInfo, experience, education, skills, projects, certifications, customization } = data;
   const accent = customization?.accentColor || '#6366f1';
+  const showQr = customization?.showQrCode;
+  const qrTarget = customization?.qrCodeTarget || personalInfo.website || 'https://alexmorgan.dev';
 
   const fontClass = customization?.fontFamily === 'serif' 
     ? 'font-serif' 
@@ -15,47 +18,71 @@ export const ModernTemplate = ({ data }) => {
     <div className={`w-full bg-white text-slate-900 p-8 shadow-2xl rounded-sm ${fontClass} leading-relaxed text-sm min-h-[1050px]`}>
       
       {/* Header Banner */}
-      <div className="border-b-2 pb-6 mb-6" style={{ borderColor: accent }}>
-        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 mb-1">
-          {personalInfo.fullName || "Your Name"}
-        </h1>
-        <p className="text-lg font-semibold tracking-wide mb-3" style={{ color: accent }}>
-          {personalInfo.jobTitle || "Professional Title"}
-        </p>
+      <div className="border-b-2 pb-6 mb-6 flex flex-col sm:flex-row justify-between items-start gap-4" style={{ borderColor: accent }}>
+        
+        <div className="flex items-start gap-4 flex-1">
+          {/* Profile Photo */}
+          {personalInfo.profilePicture && (
+            <img 
+              src={personalInfo.profilePicture} 
+              alt={personalInfo.fullName} 
+              className="w-20 h-20 rounded-2xl object-cover border-2 shadow-md shrink-0"
+              style={{ borderColor: accent }}
+            />
+          )}
 
-        {/* Contact Info Pills */}
-        <div className="flex flex-wrap items-center gap-y-1.5 gap-x-4 text-xs text-slate-600">
-          {personalInfo.email && (
-            <span className="flex items-center gap-1">
-              <Mail className="w-3.5 h-3.5 text-slate-400" /> {personalInfo.email}
-            </span>
-          )}
-          {personalInfo.phone && (
-            <span className="flex items-center gap-1">
-              <Phone className="w-3.5 h-3.5 text-slate-400" /> {personalInfo.phone}
-            </span>
-          )}
-          {personalInfo.location && (
-            <span className="flex items-center gap-1">
-              <MapPin className="w-3.5 h-3.5 text-slate-400" /> {personalInfo.location}
-            </span>
-          )}
-          {personalInfo.website && (
-            <a href={personalInfo.website} target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:underline">
-              <Globe className="w-3.5 h-3.5 text-slate-400" /> Portfolio
-            </a>
-          )}
-          {personalInfo.linkedin && (
-            <a href={personalInfo.linkedin} target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:underline">
-              <Linkedin className="w-3.5 h-3.5 text-slate-400" /> LinkedIn
-            </a>
-          )}
-          {personalInfo.github && (
-            <a href={personalInfo.github} target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:underline">
-              <Github className="w-3.5 h-3.5 text-slate-400" /> GitHub
-            </a>
-          )}
+          <div>
+            <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 mb-1">
+              {personalInfo.fullName || "Your Name"}
+            </h1>
+            <p className="text-lg font-semibold tracking-wide mb-3" style={{ color: accent }}>
+              {personalInfo.jobTitle || "Professional Title"}
+            </p>
+
+            {/* Contact Info Pills */}
+            <div className="flex flex-wrap items-center gap-y-1.5 gap-x-4 text-xs text-slate-600">
+              {personalInfo.email && (
+                <span className="flex items-center gap-1">
+                  <Mail className="w-3.5 h-3.5 text-slate-400" /> {personalInfo.email}
+                </span>
+              )}
+              {personalInfo.phone && (
+                <span className="flex items-center gap-1">
+                  <Phone className="w-3.5 h-3.5 text-slate-400" /> {personalInfo.phone}
+                </span>
+              )}
+              {personalInfo.location && (
+                <span className="flex items-center gap-1">
+                  <MapPin className="w-3.5 h-3.5 text-slate-400" /> {personalInfo.location}
+                </span>
+              )}
+              {personalInfo.website && (
+                <a href={personalInfo.website} target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:underline">
+                  <Globe className="w-3.5 h-3.5 text-slate-400" /> Portfolio
+                </a>
+              )}
+              {personalInfo.linkedin && (
+                <a href={personalInfo.linkedin} target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:underline">
+                  <Linkedin className="w-3.5 h-3.5 text-slate-400" /> LinkedIn
+                </a>
+              )}
+              {personalInfo.github && (
+                <a href={personalInfo.github} target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:underline">
+                  <Github className="w-3.5 h-3.5 text-slate-400" /> GitHub
+                </a>
+              )}
+            </div>
+          </div>
         </div>
+
+        {/* QR Code Container */}
+        {showQr && (
+          <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-200 text-center shrink-0">
+            <QRCodeSVG value={qrTarget} size={64} fgColor="#0f172a" />
+            <span className="text-[9px] font-bold text-slate-500 mt-1 uppercase tracking-tight">Scan Portfolio</span>
+          </div>
+        )}
+
       </div>
 
       {/* Summary */}

@@ -8,6 +8,9 @@ export const initialResumeData = {
     website: "https://alexmorgan.dev",
     linkedin: "https://linkedin.com/in/alexmorgan-tech",
     github: "https://github.com/alexmorgan-dev",
+    twitter: "https://x.com/alexmorgan_dev",
+    customLink: "https://drive.google.com/your-portfolio-pdf",
+    profilePicture: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
     summary: "High-impact Full Stack Engineer with 6+ years of experience designing scalable web applications, microservices, and AI-driven solutions. Proven track record of reducing latency by 45% and leading cross-functional teams to deliver enterprise products."
   },
   experience: [
@@ -92,10 +95,19 @@ export const initialResumeData = {
       credentialUrl: "https://aws.amazon.com/certification"
     }
   ],
+  coverLetter: {
+    recipientCompany: "Acme Tech Solutions",
+    targetRole: "Senior Full Stack Engineer",
+    hiringManager: "Hiring Team",
+    content: "Dear Hiring Team,\n\nI am writing to express my enthusiastic interest in the Senior Full Stack Engineer role at Acme Tech Solutions. With over 6 years of experience building high-throughput web applications, microservices, and AI-driven platforms, I am eager to bring my technical expertise to your team.\n\nThroughout my career, I have specialized in React, Node.js, TypeScript, and Cloud Architecture—reducing system latency by 45% and leading cross-functional teams to ship enterprise-grade products. I am particularly drawn to Acme Tech Solutions' vision for innovative software products.\n\nThank you for your time and consideration. I look forward to discussing how my background aligns with your engineering goals.\n\nSincerely,\nAlex Morgan"
+  },
   customization: {
     template: "modern", // 'modern' | 'executive' | 'minimalist' | 'creative' | 'compact'
     accentColor: "#6366f1", // HEX color
     fontFamily: "sans", // 'sans' | 'serif' | 'mono'
-    spacing: "normal" // 'compact' | 'normal' | 'spacious'
+    spacing: "normal", // 'compact' | 'normal' | 'spacious'
+    showQrCode: true,
+    qrCodeTarget: "https://alexmorgan.dev",
+    showProfilePhoto: true
   }
 };

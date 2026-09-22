@@ -160,3 +160,26 @@ export const auditResumeHealth = (resumeData) => {
 
   return { score, suggestions };
 };
+
+export const generateCoverLetter = async (targetCompany, targetRole, hiringManager, userResume, apiKey = "") => {
+  const name = userResume.personalInfo.fullName || "Candidate";
+  const userTitle = userResume.personalInfo.jobTitle || "Professional";
+  const company = targetCompany || "the company";
+  const role = targetRole || userTitle;
+  const manager = hiringManager || "Hiring Team";
+
+  if (apiKey && apiKey.trim()) {
+    try {
+      const genAI = new GoogleGenerativeAI(apiKey.trim());
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+      const prompt = `Write a highly professional 4-paragraph Cover Letter from ${name} (${userTitle}) applying for the ${role} position at ${company}.\nAddressed to ${manager}.\nHighlight key achievements: ${userResume.personalInfo.summary}\nReturn ONLY the cover letter text.`;
+      const result = await model.generateContent(prompt);
+      return result.response.text().trim();
+    } catch (err) {
+      console.warn("Gemini API cover letter generation failed, using smart engine:", err);
+    }
+  }
+
+  // Fallback Smart Cover Letter Generator
+  return `Dear ${manager},\n\nI am writing to express my strong enthusiasm for the ${role} position at ${company}. As a ${userTitle} with proven expertise in building scalable, reliable, and high-impact software solutions, I am confident in my ability to make immediate contributions to your engineering team.\n\nMy background includes hands-on leadership in full-stack application development, cloud architecture, and cross-functional team collaboration. In my recent roles, I have consistently focused on delivering robust features, optimizing performance, and translating product requirements into high-quality code.\n\nWhat excites me about ${company} is your commitment to engineering excellence and innovation. I am eager to leverage my technical skill set and problem-solving mindset to help achieve your upcoming product milestones.\n\nThank you for your time and consideration. I would welcome the opportunity to discuss how my experience and passion align with the needs of ${company}.\n\nSincerely,\n${name}`;
+};

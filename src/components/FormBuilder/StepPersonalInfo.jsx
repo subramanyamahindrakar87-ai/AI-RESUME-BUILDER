@@ -41,6 +41,85 @@ export const StepPersonalInfo = ({ data, onChange, apiKey }) => {
         <p className="text-xs text-slate-400">Basic contact details and professional header info</p>
       </div>
 
+      {/* Profile Photo Uploader & Avatar Presets */}
+      <div className="glass-card p-4 rounded-2xl border border-slate-800 space-y-3">
+        <label className="block text-xs font-semibold text-slate-300 flex items-center justify-between">
+          <span>Profile Photo / AI Avatar</span>
+          <span className="text-[11px] text-indigo-400">Shows on Resume & Portfolio</span>
+        </label>
+
+        <div className="flex flex-col sm:flex-row items-center gap-4">
+          {/* Avatar Preview */}
+          <div className="w-16 h-16 rounded-2xl overflow-hidden bg-slate-950 border-2 border-indigo-500/40 shrink-0 shadow-lg relative group">
+            {data.personalInfo.profilePicture ? (
+              <img src={data.personalInfo.profilePicture} alt="Avatar" className="w-full h-full object-cover" />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-slate-600 font-bold text-xl">
+                {data.personalInfo.fullName ? data.personalInfo.fullName.charAt(0) : "P"}
+              </div>
+            )}
+          </div>
+
+          <div className="space-y-2 flex-1 w-full">
+            {/* Custom Image Upload & URL input */}
+            <div className="flex items-center gap-2">
+              <input
+                type="text"
+                value={data.personalInfo.profilePicture || ''}
+                onChange={(e) => handleChange('profilePicture', e.target.value)}
+                placeholder="Paste Image URL or upload below..."
+                className="flex-1 px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-indigo-500"
+              />
+              <label className="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold cursor-pointer shrink-0 transition-colors">
+                Upload File
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files && e.target.files[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onload = (evt) => handleChange('profilePicture', evt.target.result);
+                      reader.readAsDataURL(file);
+                    }
+                  }}
+                />
+              </label>
+            </div>
+
+            {/* Quick Tech Avatar Presets */}
+            <div className="flex items-center gap-2 pt-0.5">
+              <span className="text-[10px] text-slate-400 font-semibold">Presets:</span>
+              {[
+                "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
+                "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
+                "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80",
+                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80",
+              ].map((url, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => handleChange('profilePicture', url)}
+                  className="w-6 h-6 rounded-full overflow-hidden border border-slate-700 hover:border-indigo-400 transition-all shrink-0"
+                >
+                  <img src={url} alt={`Preset ${idx}`} className="w-full h-full object-cover" />
+                </button>
+              ))}
+              {data.personalInfo.profilePicture && (
+                <button
+                  type="button"
+                  onClick={() => handleChange('profilePicture', '')}
+                  className="text-[10px] text-rose-400 hover:underline ml-1"
+                >
+                  Remove
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-xs font-semibold text-slate-300 mb-1">Full Name *</label>

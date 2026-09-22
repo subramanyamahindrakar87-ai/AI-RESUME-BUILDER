@@ -1,14 +1,26 @@
 import React from 'react';
+import { QRCodeSVG } from 'qrcode.react';
 
 export const ExecutiveTemplate = ({ data }) => {
   const { personalInfo, experience, education, skills, projects, certifications, customization } = data;
   const accent = customization?.accentColor || '#4338ca';
+  const showQr = customization?.showQrCode;
+  const qrTarget = customization?.qrCodeTarget || personalInfo.website || 'https://alexmorgan.dev';
 
   return (
     <div className="w-full bg-white text-slate-900 p-10 shadow-2xl rounded-sm font-serif leading-relaxed text-sm min-h-[1050px]">
       
       {/* Centered Executive Header */}
-      <div className="text-center pb-6 border-b-2 border-slate-900 mb-6 space-y-2">
+      <div className="text-center pb-6 border-b-2 border-slate-900 mb-6 space-y-2 relative">
+        
+        {personalInfo.profilePicture && (
+          <img 
+            src={personalInfo.profilePicture} 
+            alt={personalInfo.fullName} 
+            className="w-20 h-20 rounded-full object-cover mx-auto mb-2 border-2 border-slate-900 shadow-md"
+          />
+        )}
+
         <h1 className="text-3xl font-bold tracking-tight text-slate-900 uppercase">
           {personalInfo.fullName || "Your Full Name"}
         </h1>
@@ -22,6 +34,13 @@ export const ExecutiveTemplate = ({ data }) => {
           {personalInfo.phone && <span>• {personalInfo.phone}</span>}
           {personalInfo.website && <span>• {personalInfo.website}</span>}
         </div>
+
+        {showQr && (
+          <div className="absolute right-0 top-0 hidden sm:flex flex-col items-center justify-center p-1.5 rounded-lg bg-slate-50 border border-slate-200 text-center">
+            <QRCodeSVG value={qrTarget} size={56} fgColor="#0f172a" />
+            <span className="text-[8px] font-bold text-slate-500 mt-0.5 uppercase">Online Profile</span>
+          </div>
+        )}
       </div>
 
       {/* Executive Summary */}

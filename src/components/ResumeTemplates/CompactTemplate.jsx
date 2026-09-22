@@ -1,22 +1,44 @@
 import React from 'react';
+import { QRCodeSVG } from 'qrcode.react';
 
 export const CompactTemplate = ({ data }) => {
   const { personalInfo, experience, education, skills, projects, certifications, customization } = data;
   const accent = customization?.accentColor || '#3b82f6';
+  const showQr = customization?.showQrCode;
+  const qrTarget = customization?.qrCodeTarget || personalInfo.website || 'https://alexmorgan.dev';
 
   return (
     <div className="w-full bg-white text-slate-900 p-6 shadow-2xl rounded-sm font-sans leading-tight text-xs min-h-[1050px] space-y-4">
       
       {/* Ultra Compact Header */}
       <div className="border-b pb-3 border-slate-300 flex justify-between items-center">
-        <div>
-          <h1 className="text-xl font-black text-slate-900 uppercase tracking-tight">{personalInfo.fullName || "Your Name"}</h1>
-          <p className="text-xs font-bold text-slate-600">{personalInfo.jobTitle}</p>
+        <div className="flex items-center gap-3">
+          {personalInfo.profilePicture && (
+            <img 
+              src={personalInfo.profilePicture} 
+              alt={personalInfo.fullName} 
+              className="w-12 h-12 rounded-lg object-cover border border-slate-300 shrink-0"
+            />
+          )}
+
+          <div>
+            <h1 className="text-xl font-black text-slate-900 uppercase tracking-tight">{personalInfo.fullName || "Your Name"}</h1>
+            <p className="text-xs font-bold text-slate-600">{personalInfo.jobTitle}</p>
+          </div>
         </div>
-        <div className="text-right text-[11px] text-slate-600 space-x-2">
-          {personalInfo.email && <span>{personalInfo.email}</span>}
-          {personalInfo.phone && <span>• {personalInfo.phone}</span>}
-          {personalInfo.location && <span>• {personalInfo.location}</span>}
+
+        <div className="flex items-center gap-3">
+          <div className="text-right text-[11px] text-slate-600 space-x-2">
+            {personalInfo.email && <span>{personalInfo.email}</span>}
+            {personalInfo.phone && <span>• {personalInfo.phone}</span>}
+            {personalInfo.location && <span>• {personalInfo.location}</span>}
+          </div>
+
+          {showQr && (
+            <div className="shrink-0">
+              <QRCodeSVG value={qrTarget} size={42} fgColor="#0f172a" />
+            </div>
+          )}
         </div>
       </div>
 
