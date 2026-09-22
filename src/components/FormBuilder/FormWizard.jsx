@@ -10,6 +10,7 @@ import { StepCoverLetter } from './StepCoverLetter';
 import { StepInterviewPrep } from './StepInterviewPrep';
 import { StepVoicePitch } from './StepVoicePitch';
 import { StepCustomSections } from './StepCustomSections';
+import { StepResumeParser } from './StepResumeParser';
 import { ResumeScoreCard } from '../ResumeScoreCard';
 
 import { 
@@ -25,6 +26,7 @@ import {
   Mic,
   Layers,
   Globe,
+  FileUp,
   ChevronRight, 
   ChevronLeft,
   Palette,
@@ -34,10 +36,12 @@ import {
   QrCode,
   Check,
   Download,
-  Upload
+  Upload,
+  Copy
 } from 'lucide-react';
 
 const STEPS = [
+  { id: 'parser', label: 'AI Auto-Fill', icon: FileUp },
   { id: 'personal', label: 'Personal Info', icon: User },
   { id: 'experience', label: 'Experience', icon: Briefcase },
   { id: 'education', label: 'Education', icon: GraduationCap },
@@ -71,6 +75,10 @@ const ACCENT_COLORS = [
 
 export const FormWizard = ({ resumeData, setResumeData, apiKey, onTogglePreview }) => {
   const [activeStepIdx, setActiveStepIdx] = useState(0);
+  const [savedProfiles, setSavedProfiles] = useState(() => {
+    const saved = localStorage.getItem('ai_resume_saved_profiles');
+    return saved ? JSON.parse(saved) : {};
+  });
 
   const currentStep = STEPS[activeStepIdx];
 
@@ -82,6 +90,22 @@ export const FormWizard = ({ resumeData, setResumeData, apiKey, onTogglePreview 
         [field]: value
       }
     });
+  };
+
+  const handleSaveProfileVariant = (variantName) => {
+    const updated = {
+      ...savedProfiles,
+      [variantName]: resumeData
+    };
+    setSavedProfiles(updated);
+    localStorage.setItem('ai_resume_saved_profiles', JSON.stringify(updated));
+    alert(`Saved resume profile variant: "${variantName}"!`);
+  };
+
+  const handleLoadProfileVariant = (variantName) => {
+    if (savedProfiles[variantName]) {
+      setResumeData(savedProfiles[variantName]);
+    }
   };
 
   const handleExportJson = () => {
@@ -150,6 +174,7 @@ export const FormWizard = ({ resumeData, setResumeData, apiKey, onTogglePreview 
         
         {/* Left Column: Active Step Form */}
         <div className="lg:col-span-2 glass-panel rounded-2xl p-6 border border-slate-800/80 shadow-xl space-y-6">
+          {currentStep.id === 'parser' && <StepResumeParser data={resumeData} onChange={setResumeData} apiKey={apiKey} />}
           {currentStep.id === 'personal' && <StepPersonalInfo data={resumeData} onChange={setResumeData} apiKey={apiKey} />}
           {currentStep.id === 'experience' && <StepExperience data={resumeData} onChange={setResumeData} apiKey={apiKey} />}
           {currentStep.id === 'education' && <StepEducation data={resumeData} onChange={setResumeData} />}
@@ -202,6 +227,47 @@ export const FormWizard = ({ resumeData, setResumeData, apiKey, onTogglePreview 
           
           {/* ATS Health Audit Card */}
           <ResumeScoreCard resumeData={resumeData} />
+
+          {/* A/B Resume Profile Switcher */}
+          <div className="glass-card rounded-2xl p-4 border border-slate-800 space-y-3">
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-bold text-white flex items-center gap-1.5">
+                <Copy className="w-4 h-4 text-indigo-400" /> A/B Resume Variations
+              </label>
+              <span className="text-[10px] text-slate-400">Save & Swap Versions</span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  const name = prompt("Enter profile variation name (e.g. Frontend Focus, Full Stack, Lead Architect):");
+                  if (name) handleSaveProfileVariant(name);
+                }}
+                className="flex-1 py-1.5 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 text-xs font-semibold transition-all"
+              >
+                Save Current Version
+              </button>
+            </div>
+
+            {Object.keys(savedProfiles).length > 0 && (
+              <div className="space-y-1 pt-1">
+                <label className="block text-[11px] text-slate-400 font-semibold">Load Saved Profile:</label>
+                <div className="flex flex-wrap gap-1.5">
+                  {Object.keys(savedProfiles).map((pName) => (
+                    <button
+                      key={pName}
+                      type="button"
+                      onClick={() => handleLoadProfileVariant(pName)}
+                      className="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 hover:text-white transition-all"
+                    >
+                      {pName}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
 
           {/* Template & Visual Customizer Panel */}
           <div className="glass-card rounded-2xl p-5 border border-slate-800 space-y-5">

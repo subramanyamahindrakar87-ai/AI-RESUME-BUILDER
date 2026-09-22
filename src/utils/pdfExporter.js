@@ -5,15 +5,23 @@ export const exportToPdf = async (elementId, filename = "Resume.pdf") => {
   const element = document.getElementById(elementId);
   if (!element) {
     console.error(`Element with id ${elementId} not found`);
-    alert("Could not locate resume preview container to generate PDF.");
+    alert("Could not locate resume container to generate PDF.");
     return false;
   }
 
   const opt = {
-    margin: [8, 8, 8, 8],
+    margin: [6, 6, 6, 6],
     filename: filename,
     image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true, letterRendering: true, logging: false },
+    html2canvas: { 
+      scale: 2, 
+      useCORS: true, 
+      allowTaint: true, 
+      letterRendering: true, 
+      logging: false,
+      scrollX: 0,
+      scrollY: 0
+    },
     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
 
@@ -28,7 +36,7 @@ export const exportToPdf = async (elementId, filename = "Resume.pdf") => {
     await html2pdf().set(opt).from(element).save();
     return true;
   } catch (err) {
-    console.warn("html2pdf failed, triggering fallback print dialogue:", err);
+    console.warn("html2pdf error, launching print dialogue:", err);
     window.print();
     return true;
   }
