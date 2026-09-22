@@ -23,7 +23,7 @@ export function App() {
     return localStorage.getItem('gemini_api_key') || import.meta.env.VITE_GEMINI_API_KEY || '';
   });
 
-  const [activeView, setActiveView] = useState('builder'); // 'landing' | 'builder' | 'portfolio'
+  const [activeView, setActiveView] = useState('portfolio'); // 'portfolio' | 'builder' | 'landing'
   const [isApiKeyModalOpen, setIsApiKeyModalOpen] = useState(false);
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
 
@@ -120,7 +120,7 @@ export function App() {
         )}
 
         {activeView === 'portfolio' && (
-          <PortfolioPage resumeData={resumeData} />
+          <PortfolioPage resumeData={resumeData} onEditResume={() => setActiveView('builder')} />
         )}
 
       </main>

@@ -18,11 +18,12 @@ import {
   Check,
   Code,
   Layers,
-  Languages
+  Languages,
+  Edit3
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
-export const PortfolioPage = ({ resumeData }) => {
+export const PortfolioPage = ({ resumeData, onEditResume }) => {
   const { personalInfo, experience, education, skills, projects, certifications, customSections, customization } = resumeData;
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [activeCategory, setActiveCategory] = useState('All');
@@ -126,13 +127,25 @@ export const PortfolioPage = ({ resumeData }) => {
           <span className="text-xs font-bold uppercase tracking-wider opacity-70">Live Portfolio ({theme} theme)</span>
         </div>
 
-        <button
-          onClick={handleExportHtml}
-          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 shadow-md transition-all"
-        >
-          <Code className="w-3.5 h-3.5 text-indigo-400" />
-          <span>Export Single-File Portfolio HTML</span>
-        </button>
+        <div className="flex items-center gap-2">
+          {onEditResume && (
+            <button
+              onClick={onEditResume}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-600/30 transition-all hover:scale-[1.02]"
+            >
+              <Edit3 className="w-3.5 h-3.5" />
+              <span>Edit Portfolio & Resume</span>
+            </button>
+          )}
+
+          <button
+            onClick={handleExportHtml}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 shadow-md transition-all"
+          >
+            <Code className="w-3.5 h-3.5 text-indigo-400" />
+            <span>Export Single-File Portfolio HTML</span>
+          </button>
+        </div>
       </div>
 
       {/* Hero Section */}
