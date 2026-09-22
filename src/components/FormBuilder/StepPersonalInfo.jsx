@@ -131,13 +131,39 @@ export const StepPersonalInfo = ({ data, onChange, apiKey }) => {
 
         <div>
           <label className="block text-xs font-semibold text-slate-300 mb-1 flex items-center gap-1">
-            <Github className="w-3.5 h-3.5 text-slate-400" /> GitHub URL
+            <Github className="w-3.5 h-3.5 text-slate-400" /> Your GitHub URL
           </label>
           <input
             type="text"
             value={data.personalInfo.github || ''}
             onChange={(e) => handleChange('github', e.target.value)}
-            placeholder="https://github.com/username"
+            placeholder="https://github.com/your-username"
+            className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 transition-all"
+          />
+        </div>
+
+        <div>
+          <label className="block text-xs font-semibold text-slate-300 mb-1 flex items-center gap-1">
+            <Globe className="w-3.5 h-3.5 text-slate-400" /> Twitter / X Profile URL
+          </label>
+          <input
+            type="text"
+            value={data.personalInfo.twitter || ''}
+            onChange={(e) => handleChange('twitter', e.target.value)}
+            placeholder="https://x.com/your-handle"
+            className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 transition-all"
+          />
+        </div>
+
+        <div>
+          <label className="block text-xs font-semibold text-slate-300 mb-1 flex items-center gap-1">
+            <Globe className="w-3.5 h-3.5 text-slate-400" /> Custom Link (Blog / Drive PDF)
+          </label>
+          <input
+            type="text"
+            value={data.personalInfo.customLink || ''}
+            onChange={(e) => handleChange('customLink', e.target.value)}
+            placeholder="https://drive.google.com/your-file"
             className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 transition-all"
           />
         </div>

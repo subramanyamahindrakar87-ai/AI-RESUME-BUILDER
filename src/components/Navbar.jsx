@@ -8,7 +8,9 @@ import {
   Eye, 
   Layout, 
   CheckCircle,
-  Wand2
+  Wand2,
+  Github,
+  Linkedin
 } from 'lucide-react';
 
 export const Navbar = ({ 
@@ -41,32 +43,59 @@ export const Navbar = ({
           </div>
         </div>
 
-        {/* Navigation Tabs */}
-        <nav className="hidden md:flex items-center gap-1 p-1 bg-slate-900/80 rounded-xl border border-slate-800">
-          <button
-            onClick={() => setActiveView('builder')}
-            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 ${
-              activeView === 'builder'
-                ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
-                : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
-            }`}
-          >
-            <FileText className="w-3.5 h-3.5" />
-            Resume Builder
-          </button>
+        {/* Permanent Developer Links & Navigation Tabs */}
+        <div className="flex items-center gap-3">
+          <nav className="hidden md:flex items-center gap-1 p-1 bg-slate-900/80 rounded-xl border border-slate-800">
+            <button
+              onClick={() => setActiveView('builder')}
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 ${
+                activeView === 'builder'
+                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+              }`}
+            >
+              <FileText className="w-3.5 h-3.5" />
+              Resume Builder
+            </button>
 
-          <button
-            onClick={() => setActiveView('portfolio')}
-            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 ${
-              activeView === 'portfolio'
-                ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
-                : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
-            }`}
-          >
-            <Globe className="w-3.5 h-3.5" />
-            Portfolio Webpage
-          </button>
-        </nav>
+            <button
+              onClick={() => setActiveView('portfolio')}
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 ${
+                activeView === 'portfolio'
+                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+              }`}
+            >
+              <Globe className="w-3.5 h-3.5" />
+              Portfolio Webpage
+            </button>
+          </nav>
+
+          {/* Permanent Creator Social Links */}
+          <div className="hidden lg:flex items-center gap-1.5 px-2 py-1 bg-slate-900/60 rounded-xl border border-slate-800/80 text-xs">
+            <a
+              href="https://github.com/subramanyamahindrakar87-ai"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 px-2 py-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+              title="Developer GitHub (https://github.com/subramanyamahindrakar87-ai)"
+            >
+              <Github className="w-3.5 h-3.5 text-indigo-400" />
+              <span className="font-semibold text-[11px]">GitHub</span>
+            </a>
+            <span className="text-slate-700">|</span>
+            <a
+              href="https://www.linkedin.com/in/subramanyapm/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 px-2 py-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+              title="Developer LinkedIn (https://www.linkedin.com/in/subramanyapm/)"
+            >
+              <Linkedin className="w-3.5 h-3.5 text-indigo-400" />
+              <span className="font-semibold text-[11px]">LinkedIn</span>
+            </a>
+          </div>
+        </div>
 
         {/* Actions Toolbar */}
         <div className="flex items-center gap-2">

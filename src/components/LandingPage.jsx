@@ -10,7 +10,9 @@ import {
   Layout, 
   ArrowRight,
   CheckCircle,
-  Cpu
+  Cpu,
+  Github,
+  Linkedin
 } from 'lucide-react';
 
 export const LandingPage = ({ onGetStarted }) => {
@@ -144,6 +146,35 @@ export const LandingPage = ({ onGetStarted }) => {
           ))}
         </div>
       </section>
+
+      {/* Footer / Developer Credits */}
+      <footer className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 border-t border-slate-900 text-center space-y-3">
+        <p className="text-xs text-slate-400 font-medium">
+          Created with ❤️ by Subramanya • Built with React, Vite & Tailwind CSS
+        </p>
+
+        <div className="flex items-center justify-center gap-4 text-xs font-semibold">
+          <a
+            href="https://github.com/subramanyamahindrakar87-ai"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-indigo-400 border border-slate-800 transition-colors"
+          >
+            <Github className="w-4 h-4" />
+            <span>GitHub Profile</span>
+          </a>
+
+          <a
+            href="https://www.linkedin.com/in/subramanyapm/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-indigo-400 border border-slate-800 transition-colors"
+          >
+            <Linkedin className="w-4 h-4" />
+            <span>LinkedIn Profile</span>
+          </a>
+        </div>
+      </footer>
 
     </div>
   );
