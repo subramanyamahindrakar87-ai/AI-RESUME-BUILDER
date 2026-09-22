@@ -20,7 +20,7 @@ export function App() {
   });
 
   const [apiKey, setApiKey] = useState(() => {
-    return localStorage.getItem('gemini_api_key') || '';
+    return localStorage.getItem('gemini_api_key') || import.meta.env.VITE_GEMINI_API_KEY || '';
   });
 
   const [activeView, setActiveView] = useState('builder'); // 'landing' | 'builder' | 'portfolio'
