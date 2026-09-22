@@ -8,6 +8,8 @@ import { StepCertifications } from './StepCertifications';
 import { StepAITools } from './StepAITools';
 import { StepCoverLetter } from './StepCoverLetter';
 import { StepInterviewPrep } from './StepInterviewPrep';
+import { StepVoicePitch } from './StepVoicePitch';
+import { StepCustomSections } from './StepCustomSections';
 import { ResumeScoreCard } from '../ResumeScoreCard';
 
 import { 
@@ -20,6 +22,9 @@ import {
   Target, 
   Mail,
   MessageSquare,
+  Mic,
+  Layers,
+  Globe,
   ChevronRight, 
   ChevronLeft,
   Palette,
@@ -39,7 +44,9 @@ const STEPS = [
   { id: 'skills', label: 'Skills', icon: Cpu },
   { id: 'projects', label: 'Projects', icon: FolderGit2 },
   { id: 'certifications', label: 'Certifications', icon: Award },
+  { id: 'customSections', label: 'Custom Sections', icon: Layers },
   { id: 'coverLetter', label: 'Cover Letter', icon: Mail },
+  { id: 'voicePitch', label: 'Voice Pitch', icon: Mic },
   { id: 'interviewPrep', label: 'Interview Q&A', icon: MessageSquare },
   { id: 'aiTools', label: 'ATS Matcher', icon: Target },
 ];
@@ -149,7 +156,9 @@ export const FormWizard = ({ resumeData, setResumeData, apiKey, onTogglePreview 
           {currentStep.id === 'skills' && <StepSkills data={resumeData} onChange={setResumeData} />}
           {currentStep.id === 'projects' && <StepProjects data={resumeData} onChange={setResumeData} />}
           {currentStep.id === 'certifications' && <StepCertifications data={resumeData} onChange={setResumeData} />}
+          {currentStep.id === 'customSections' && <StepCustomSections data={resumeData} onChange={setResumeData} />}
           {currentStep.id === 'coverLetter' && <StepCoverLetter data={resumeData} onChange={setResumeData} apiKey={apiKey} />}
+          {currentStep.id === 'voicePitch' && <StepVoicePitch data={resumeData} onChange={setResumeData} apiKey={apiKey} />}
           {currentStep.id === 'interviewPrep' && <StepInterviewPrep data={resumeData} apiKey={apiKey} />}
           {currentStep.id === 'aiTools' && <StepAITools data={resumeData} apiKey={apiKey} />}
 
@@ -199,6 +208,33 @@ export const FormWizard = ({ resumeData, setResumeData, apiKey, onTogglePreview 
             <h4 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
               <Palette className="w-4 h-4 text-indigo-400" /> Design & Theme Customizer
             </h4>
+
+            {/* Portfolio Theme Switcher */}
+            <div className="space-y-2">
+              <label className="block text-xs font-semibold text-slate-300 flex items-center gap-1">
+                <Globe className="w-3.5 h-3.5 text-indigo-400" /> Portfolio Website Theme
+              </label>
+              <div className="grid grid-cols-2 gap-1.5">
+                {[
+                  { id: 'dark-glass', label: 'Dark Glass' },
+                  { id: 'cyberpunk', label: 'Cyberpunk Neon' },
+                  { id: 'minimal-light', label: 'Clean Light' },
+                  { id: 'emerald', label: 'Emerald Slate' },
+                ].map((pTheme) => (
+                  <button
+                    key={pTheme.id}
+                    onClick={() => handleCustomizationChange('portfolioTheme', pTheme.id)}
+                    className={`py-1.5 px-2 rounded-xl text-xs font-medium border text-center transition-all ${
+                      (resumeData.customization?.portfolioTheme || 'dark-glass') === pTheme.id
+                        ? 'bg-indigo-600 text-white border-indigo-500 shadow-sm'
+                        : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:border-slate-700'
+                    }`}
+                  >
+                    {pTheme.label}
+                  </button>
+                ))}
+              </div>
+            </div>
 
             {/* Template Selector */}
             <div className="space-y-2">

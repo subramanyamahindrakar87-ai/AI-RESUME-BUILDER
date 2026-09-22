@@ -16,14 +16,39 @@ import {
   Download,
   Copy,
   Check,
-  Code
+  Code,
+  Layers
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export const PortfolioPage = ({ resumeData }) => {
-  const { personalInfo, experience, education, skills, projects, certifications } = resumeData;
+  const { personalInfo, experience, education, skills, projects, certifications, customSections, customization } = resumeData;
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [activeCategory, setActiveCategory] = useState('All');
+
+  const theme = customization?.portfolioTheme || 'dark-glass';
+
+  let themeBg = 'bg-slate-950 text-slate-100';
+  let accentGradient = 'from-indigo-400 via-violet-400 to-pink-400';
+  let badgeStyle = 'bg-indigo-500/10 border-indigo-500/20 text-indigo-300';
+  let btnStyle = 'from-indigo-600 to-violet-600 shadow-indigo-600/30';
+
+  if (theme === 'cyberpunk') {
+    themeBg = 'bg-black text-cyan-100';
+    accentGradient = 'from-cyan-400 via-fuchsia-500 to-yellow-400';
+    badgeStyle = 'bg-cyan-500/10 border-cyan-500/30 text-cyan-300';
+    btnStyle = 'from-cyan-600 to-fuchsia-600 shadow-cyan-600/40';
+  } else if (theme === 'minimal-light') {
+    themeBg = 'bg-slate-50 text-slate-900';
+    accentGradient = 'from-slate-900 via-indigo-900 to-slate-800';
+    badgeStyle = 'bg-slate-200 border-slate-300 text-slate-800';
+    btnStyle = 'from-slate-800 to-slate-900 shadow-slate-800/20';
+  } else if (theme === 'emerald') {
+    themeBg = 'bg-slate-950 text-slate-100';
+    accentGradient = 'from-emerald-400 via-teal-400 to-cyan-400';
+    badgeStyle = 'bg-emerald-500/10 border-emerald-500/20 text-emerald-300';
+    btnStyle = 'from-emerald-600 to-teal-600 shadow-emerald-600/30';
+  }
 
   const handleCopyEmail = () => {
     if (personalInfo.email) {
@@ -91,13 +116,13 @@ export const PortfolioPage = ({ resumeData }) => {
     : (skills || []).find(s => s.category === activeCategory)?.items || [];
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 pb-20 animate-fadeIn">
+    <div className={`min-h-screen ${themeBg} pb-20 animate-fadeIn transition-colors duration-500`}>
       
       {/* Portfolio Floating Toolbar */}
       <div className="max-w-6xl mx-auto px-4 pt-6 pb-2 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Live Personal Portfolio Preview</span>
+          <span className="text-xs font-bold uppercase tracking-wider opacity-70">Live Portfolio ({theme} theme)</span>
         </div>
 
         <button
@@ -114,36 +139,42 @@ export const PortfolioPage = ({ resumeData }) => {
         <div className="absolute inset-0 glow-gradient pointer-events-none" />
         <div className="max-w-4xl mx-auto text-center space-y-6 relative z-10">
           
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold">
+          {personalInfo.profilePicture && (
+            <div className="w-28 h-28 rounded-full overflow-hidden mx-auto border-4 border-indigo-500/40 shadow-2xl">
+              <img src={personalInfo.profilePicture} alt={personalInfo.fullName} className="w-full h-full object-cover" />
+            </div>
+          )}
+
+          <div className={`inline-flex items-center gap-2 px-3.5 py-1 rounded-full border text-xs font-semibold ${badgeStyle}`}>
             <Sparkles className="w-3.5 h-3.5" />
             <span>Available for New Opportunities</span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white">
-            Hi, I'm <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-pink-400 bg-clip-text text-transparent">{personalInfo.fullName || "Alex Morgan"}</span>
+          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight">
+            Hi, I'm <span className={`bg-gradient-to-r ${accentGradient} bg-clip-text text-transparent`}>{personalInfo.fullName || "Alex Morgan"}</span>
           </h1>
 
-          <p className="text-xl sm:text-2xl font-bold text-slate-300">
+          <p className="text-xl sm:text-2xl font-bold opacity-90">
             {personalInfo.jobTitle || "Senior Software Engineer"}
           </p>
 
           {personalInfo.summary && (
-            <p className="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-sm sm:text-base opacity-75 max-w-2xl mx-auto leading-relaxed">
               {personalInfo.summary}
             </p>
           )}
 
           {/* Location & Quick Contact */}
-          <div className="flex flex-wrap justify-center items-center gap-4 text-xs font-medium text-slate-400 pt-2">
+          <div className="flex flex-wrap justify-center items-center gap-4 text-xs font-medium opacity-80 pt-2">
             {personalInfo.location && (
               <span className="flex items-center gap-1">
                 <MapPin className="w-3.5 h-3.5 text-indigo-400" /> {personalInfo.location}
               </span>
             )}
             {personalInfo.email && (
-              <button onClick={handleCopyEmail} className="flex items-center gap-1 hover:text-indigo-300 transition-colors">
+              <button onClick={handleCopyEmail} className="flex items-center gap-1 hover:opacity-100 transition-opacity">
                 <Mail className="w-3.5 h-3.5 text-indigo-400" /> {personalInfo.email}
-                {copiedEmail ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3 text-slate-500" />}
+                {copiedEmail ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3 opacity-50" />}
               </button>
             )}
           </div>
@@ -151,17 +182,17 @@ export const PortfolioPage = ({ resumeData }) => {
           {/* Social Links Buttons */}
           <div className="flex justify-center items-center gap-3 pt-4">
             {personalInfo.github && (
-              <a href={personalInfo.github} target="_blank" rel="noreferrer" className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-indigo-500/50 transition-all">
+              <a href={personalInfo.github} target="_blank" rel="noreferrer" className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-all">
                 <Github className="w-5 h-5" />
               </a>
             )}
             {personalInfo.linkedin && (
-              <a href={personalInfo.linkedin} target="_blank" rel="noreferrer" className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-indigo-500/50 transition-all">
+              <a href={personalInfo.linkedin} target="_blank" rel="noreferrer" className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-all">
                 <Linkedin className="w-5 h-5" />
               </a>
             )}
             {personalInfo.website && (
-              <a href={personalInfo.website} target="_blank" rel="noreferrer" className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-indigo-500/50 transition-all">
+              <a href={personalInfo.website} target="_blank" rel="noreferrer" className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-all">
                 <Globe className="w-5 h-5" />
               </a>
             )}
@@ -172,13 +203,13 @@ export const PortfolioPage = ({ resumeData }) => {
 
       {/* Projects Showcase */}
       {projects && projects.length > 0 && (
-        <section className="max-w-5xl mx-auto px-4 py-12 space-y-8 border-t border-slate-900">
+        <section className="max-w-5xl mx-auto px-4 py-12 space-y-8 border-t border-slate-800/60">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-extrabold text-white flex items-center gap-2">
+              <h2 className="text-2xl font-extrabold flex items-center gap-2">
                 <FolderGit2 className="w-6 h-6 text-indigo-400" /> Featured Projects
               </h2>
-              <p className="text-xs text-slate-400">Applications & open-source solutions engineered by me</p>
+              <p className="text-xs opacity-70">Applications & open-source solutions engineered by me</p>
             </div>
           </div>
 
@@ -186,7 +217,7 @@ export const PortfolioPage = ({ resumeData }) => {
             {projects.map((proj, pIdx) => (
               <div key={pIdx} className="glass-panel rounded-2xl p-6 border border-slate-800 hover:border-indigo-500/40 transition-all duration-300 space-y-4 group">
                 <div className="flex items-start justify-between gap-4">
-                  <h3 className="text-lg font-bold text-white group-hover:text-indigo-300 transition-colors">{proj.title}</h3>
+                  <h3 className="text-lg font-bold group-hover:text-indigo-300 transition-colors">{proj.title}</h3>
                   <div className="flex items-center gap-2">
                     {proj.github && (
                       <a href={proj.github} target="_blank" rel="noreferrer" className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800">
@@ -201,12 +232,12 @@ export const PortfolioPage = ({ resumeData }) => {
                   </div>
                 </div>
 
-                <p className="text-xs text-slate-300 leading-relaxed">{proj.description}</p>
+                <p className="text-xs opacity-85 leading-relaxed">{proj.description}</p>
 
                 {proj.techStack && (
                   <div className="flex flex-wrap gap-1.5 pt-2">
                     {proj.techStack.map((tech, tIdx) => (
-                      <span key={tIdx} className="px-2.5 py-1 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold">
+                      <span key={tIdx} className={`px-2.5 py-1 rounded-lg border text-xs font-semibold ${badgeStyle}`}>
                         {tech}
                       </span>
                     ))}
@@ -220,12 +251,12 @@ export const PortfolioPage = ({ resumeData }) => {
 
       {/* Skills Matrix Section */}
       {skills && skills.length > 0 && (
-        <section className="max-w-5xl mx-auto px-4 py-12 space-y-6 border-t border-slate-900">
+        <section className="max-w-5xl mx-auto px-4 py-12 space-y-6 border-t border-slate-800/60">
           <div>
-            <h2 className="text-2xl font-extrabold text-white flex items-center gap-2">
+            <h2 className="text-2xl font-extrabold flex items-center gap-2">
               <Cpu className="w-6 h-6 text-indigo-400" /> Skills & Technical Stack
             </h2>
-            <p className="text-xs text-slate-400">Core technologies, frameworks, and methodologies</p>
+            <p className="text-xs opacity-70">Core technologies, frameworks, and methodologies</p>
           </div>
 
           {/* Category Filter Pills */}
@@ -236,8 +267,8 @@ export const PortfolioPage = ({ resumeData }) => {
                 onClick={() => setActiveCategory(cat)}
                 className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                   activeCategory === cat
-                    ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
-                    : 'bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800'
+                    ? 'bg-indigo-600 text-white shadow-md'
+                    : 'bg-slate-900/60 text-slate-400 hover:text-white'
                 }`}
               >
                 {cat}
@@ -248,7 +279,7 @@ export const PortfolioPage = ({ resumeData }) => {
           {/* Skill Cards Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
             {filteredSkills.map((skill, sIdx) => (
-              <div key={sIdx} className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-indigo-500/30 flex items-center justify-between text-xs font-semibold text-slate-200 transition-all">
+              <div key={sIdx} className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 flex items-center justify-between text-xs font-semibold transition-all">
                 <span>{skill}</span>
                 <Sparkles className="w-3.5 h-3.5 text-indigo-400 opacity-60" />
               </div>
@@ -259,12 +290,12 @@ export const PortfolioPage = ({ resumeData }) => {
 
       {/* Work Experience Timeline */}
       {experience && experience.length > 0 && (
-        <section className="max-w-5xl mx-auto px-4 py-12 space-y-8 border-t border-slate-900">
+        <section className="max-w-5xl mx-auto px-4 py-12 space-y-8 border-t border-slate-800/60">
           <div>
-            <h2 className="text-2xl font-extrabold text-white flex items-center gap-2">
+            <h2 className="text-2xl font-extrabold flex items-center gap-2">
               <Briefcase className="w-6 h-6 text-indigo-400" /> Career Experience
             </h2>
-            <p className="text-xs text-slate-400">Professional growth and roles held</p>
+            <p className="text-xs opacity-70">Professional growth and roles held</p>
           </div>
 
           <div className="space-y-6 relative border-l-2 border-slate-800 ml-3 pl-6">
@@ -273,16 +304,16 @@ export const PortfolioPage = ({ resumeData }) => {
                 <span className="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full bg-indigo-500 border-4 border-slate-950 group-hover:scale-125 transition-transform" />
                 
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h3 className="text-base font-bold text-white">{exp.role}</h3>
-                  <span className="text-xs font-semibold text-indigo-400 bg-indigo-500/10 px-2.5 py-0.5 rounded-full border border-indigo-500/20">
+                  <h3 className="text-base font-bold">{exp.role}</h3>
+                  <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border ${badgeStyle}`}>
                     {exp.startDate} – {exp.current ? 'Present' : exp.endDate}
                   </span>
                 </div>
 
-                <p className="text-xs font-semibold text-slate-400">{exp.company} • {exp.location}</p>
+                <p className="text-xs font-semibold opacity-75">{exp.company} • {exp.location}</p>
 
                 {exp.description && (
-                  <ul className="list-disc list-outside ml-4 text-xs text-slate-300 space-y-1 pt-1">
+                  <ul className="list-disc list-outside ml-4 text-xs opacity-85 space-y-1 pt-1">
                     {exp.description.map((bullet, bIdx) => (
                       <li key={bIdx}>{bullet}</li>
                     ))}
@@ -294,54 +325,40 @@ export const PortfolioPage = ({ resumeData }) => {
         </section>
       )}
 
-      {/* Education & Certifications */}
-      <section className="max-w-5xl mx-auto px-4 py-12 border-t border-slate-900 grid grid-cols-1 md:grid-cols-2 gap-8">
-        
-        {education && education.length > 0 && (
-          <div className="space-y-4">
-            <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <GraduationCap className="w-5 h-5 text-indigo-400" /> Education
-            </h2>
-            <div className="space-y-3">
-              {education.map((edu, idx) => (
-                <div key={idx} className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-1">
-                  <h3 className="text-sm font-bold text-white">{edu.degree}</h3>
-                  <p className="text-xs text-indigo-300">{edu.institution}</p>
-                  <p className="text-xs text-slate-400">{edu.startDate} – {edu.endDate} {edu.gpa ? `• GPA: ${edu.gpa}` : ''}</p>
-                </div>
-              ))}
-            </div>
+      {/* Custom Sections (Languages, Speaking, etc) */}
+      {customSections && customSections.length > 0 && (
+        <section className="max-w-5xl mx-auto px-4 py-12 border-t border-slate-800/60 space-y-6">
+          <h2 className="text-2xl font-extrabold flex items-center gap-2">
+            <Layers className="w-6 h-6 text-indigo-400" /> Highlights & Credentials
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {customSections.map((sec, sIdx) => (
+              <div key={sIdx} className="glass-panel p-5 rounded-2xl border border-slate-800 space-y-2">
+                <h3 className="text-sm font-bold text-indigo-300">{sec.title}</h3>
+                <ul className="space-y-1 text-xs opacity-85">
+                  {sec.items.map((item, idx) => (
+                    <li key={idx} className="flex items-start gap-1.5">
+                      <span className="text-indigo-400 font-bold">•</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
-        )}
-
-        {certifications && certifications.length > 0 && (
-          <div className="space-y-4">
-            <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <Award className="w-5 h-5 text-indigo-400" /> Certifications
-            </h2>
-            <div className="space-y-3">
-              {certifications.map((cert, idx) => (
-                <div key={idx} className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-1">
-                  <h3 className="text-sm font-bold text-white">{cert.title}</h3>
-                  <p className="text-xs text-slate-400">{cert.issuer} • Issued {cert.date}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-      </section>
+        </section>
+      )}
 
       {/* Footer Contact Banner */}
-      <footer className="max-w-4xl mx-auto px-4 pt-12 text-center border-t border-slate-900 space-y-4">
-        <h3 className="text-2xl font-bold text-white">Let's Connect & Work Together</h3>
-        <p className="text-xs text-slate-400">Feel free to reach out via email or LinkedIn</p>
+      <footer className="max-w-4xl mx-auto px-4 pt-12 text-center border-t border-slate-800/60 space-y-4">
+        <h3 className="text-2xl font-bold">Let's Connect & Work Together</h3>
+        <p className="text-xs opacity-70">Feel free to reach out via email or LinkedIn</p>
 
         {personalInfo.email && (
           <div className="pt-2">
             <a
               href={`mailto:${personalInfo.email}`}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-bold text-sm shadow-xl shadow-indigo-600/30 hover:scale-105 transition-transform"
+              className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r ${btnStyle} font-bold text-sm hover:scale-105 transition-transform`}
             >
               <Mail className="w-4 h-4" /> Send Email
             </a>
