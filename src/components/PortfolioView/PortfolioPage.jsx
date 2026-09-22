@@ -164,7 +164,7 @@ export const PortfolioPage = ({ resumeData, onEditResume }) => {
               />
             </div>
             <div className="absolute -bottom-2 -right-2 px-2.5 py-0.5 rounded-full bg-indigo-600 text-white text-[10px] font-bold shadow-lg border border-indigo-300">
-              3D AI Avatar
+              Profile Avatar
             </div>
           </div>
 
@@ -235,9 +235,9 @@ export const PortfolioPage = ({ resumeData, onEditResume }) => {
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-extrabold flex items-center gap-2">
-                <FolderGit2 className="w-6 h-6 text-indigo-400" /> Featured 3D Applications & Solutions
+                <FolderGit2 className="w-6 h-6 text-indigo-400" /> Featured Projects & Solutions
               </h2>
-              <p className="text-xs opacity-70">Interactive software projects and cloud systems engineered by me</p>
+              <p className="text-xs opacity-70">Software projects and cloud systems engineered by me</p>
             </div>
           </div>
 
