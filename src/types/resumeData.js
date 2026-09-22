@@ -101,9 +101,6 @@ export const initialResumeData = {
     hiringManager: "Hiring Team",
     content: "Dear Hiring Team,\n\nI am writing to express my enthusiastic interest in the Senior Full Stack Engineer role at Acme Tech Solutions. With over 6 years of experience building high-throughput web applications, microservices, and AI-driven platforms, I am eager to bring my technical expertise to your team.\n\nThroughout my career, I have specialized in React, Node.js, TypeScript, and Cloud Architecture—reducing system latency by 45% and leading cross-functional teams to ship enterprise-grade products. I am particularly drawn to Acme Tech Solutions' vision for innovative software products.\n\nThank you for your time and consideration. I look forward to discussing how my background aligns with your engineering goals.\n\nSincerely,\nAlex Morgan"
   },
-  elevatorPitch: {
-    content: "Hi! I'm Alex Morgan, a Senior Full Stack Engineer with over 6 years of experience building high-scale web platforms and AI-driven workflows. Most recently at Nexus AI, I architected a real-time streaming analytics platform serving 2.5M+ daily users and integrated LLM automation tools that boosted productivity by 35%. I specialize in React, Node.js, and Cloud Architecture, and I'm passionate about delivering fast, reliable products that solve complex user problems."
-  },
   customSections: [
     {
       id: "custom-1",

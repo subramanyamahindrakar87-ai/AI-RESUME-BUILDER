@@ -8,9 +8,7 @@ import { StepCertifications } from './StepCertifications';
 import { StepAITools } from './StepAITools';
 import { StepCoverLetter } from './StepCoverLetter';
 import { StepInterviewPrep } from './StepInterviewPrep';
-import { StepVoicePitch } from './StepVoicePitch';
 import { StepCustomSections } from './StepCustomSections';
-import { StepResumeParser } from './StepResumeParser';
 import { ResumeScoreCard } from '../ResumeScoreCard';
 
 import { 
@@ -23,10 +21,8 @@ import {
   Target, 
   Mail,
   MessageSquare,
-  Mic,
   Layers,
   Globe,
-  FileUp,
   ChevronRight, 
   ChevronLeft,
   Palette,
@@ -41,7 +37,6 @@ import {
 } from 'lucide-react';
 
 const STEPS = [
-  { id: 'parser', label: 'AI Auto-Fill', icon: FileUp },
   { id: 'personal', label: 'Personal Info', icon: User },
   { id: 'experience', label: 'Experience', icon: Briefcase },
   { id: 'education', label: 'Education', icon: GraduationCap },
@@ -50,7 +45,6 @@ const STEPS = [
   { id: 'certifications', label: 'Certifications', icon: Award },
   { id: 'customSections', label: 'Custom Sections', icon: Layers },
   { id: 'coverLetter', label: 'Cover Letter', icon: Mail },
-  { id: 'voicePitch', label: 'Voice Pitch', icon: Mic },
   { id: 'interviewPrep', label: 'Interview Q&A', icon: MessageSquare },
   { id: 'aiTools', label: 'ATS Matcher', icon: Target },
 ];
@@ -174,7 +168,6 @@ export const FormWizard = ({ resumeData, setResumeData, apiKey, onTogglePreview 
         
         {/* Left Column: Active Step Form */}
         <div className="lg:col-span-2 glass-panel rounded-2xl p-6 border border-slate-800/80 shadow-xl space-y-6">
-          {currentStep.id === 'parser' && <StepResumeParser data={resumeData} onChange={setResumeData} apiKey={apiKey} />}
           {currentStep.id === 'personal' && <StepPersonalInfo data={resumeData} onChange={setResumeData} apiKey={apiKey} />}
           {currentStep.id === 'experience' && <StepExperience data={resumeData} onChange={setResumeData} apiKey={apiKey} />}
           {currentStep.id === 'education' && <StepEducation data={resumeData} onChange={setResumeData} />}
@@ -183,7 +176,6 @@ export const FormWizard = ({ resumeData, setResumeData, apiKey, onTogglePreview 
           {currentStep.id === 'certifications' && <StepCertifications data={resumeData} onChange={setResumeData} />}
           {currentStep.id === 'customSections' && <StepCustomSections data={resumeData} onChange={setResumeData} />}
           {currentStep.id === 'coverLetter' && <StepCoverLetter data={resumeData} onChange={setResumeData} apiKey={apiKey} />}
-          {currentStep.id === 'voicePitch' && <StepVoicePitch data={resumeData} onChange={setResumeData} apiKey={apiKey} />}
           {currentStep.id === 'interviewPrep' && <StepInterviewPrep data={resumeData} apiKey={apiKey} />}
           {currentStep.id === 'aiTools' && <StepAITools data={resumeData} apiKey={apiKey} />}
 
