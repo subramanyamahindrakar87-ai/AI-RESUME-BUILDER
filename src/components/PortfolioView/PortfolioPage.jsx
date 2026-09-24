@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { 
-  Globe, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Linkedin, 
-  Github, 
-  ExternalLink, 
-  Sparkles, 
-  Briefcase, 
-  FolderGit2, 
-  GraduationCap, 
-  Cpu, 
+import {
+  Globe,
+  Mail,
+  Phone,
+  MapPin,
+  Linkedin,
+  Github,
+  ExternalLink,
+  Sparkles,
+  Briefcase,
+  FolderGit2,
+  GraduationCap,
+  Cpu,
   Award,
   Download,
   Copy,
@@ -62,7 +62,7 @@ export const PortfolioPage = ({ resumeData, onEditResume }) => {
 
   const handleExportHtml = () => {
     confetti({ particleCount: 60, spread: 50, origin: { y: 0.6 } });
-    
+
     const htmlContent = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -113,13 +113,13 @@ export const PortfolioPage = ({ resumeData, onEditResume }) => {
   };
 
   const categories = ['All', ...(skills || []).map(s => s.category)];
-  const filteredSkills = activeCategory === 'All' 
-    ? (skills || []).flatMap(s => s.items) 
+  const filteredSkills = activeCategory === 'All'
+    ? (skills || []).flatMap(s => s.items)
     : (skills || []).find(s => s.category === activeCategory)?.items || [];
 
   return (
     <div className={`min-h-screen ${themeBg} pb-20 animate-fadeIn transition-colors duration-500`}>
-      
+
       {/* Portfolio Floating Toolbar */}
       <div className="max-w-6xl mx-auto px-4 pt-6 pb-2 flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -152,14 +152,14 @@ export const PortfolioPage = ({ resumeData, onEditResume }) => {
       <section className="relative overflow-hidden pt-12 pb-16 px-4">
         <div className="absolute inset-0 glow-gradient pointer-events-none" />
         <div className="max-w-4xl mx-auto text-center space-y-6 relative z-10">
-          
+
           {/* 3D Holographic Avatar Frame */}
           <div className="relative w-36 h-36 mx-auto group cursor-pointer">
             <div className="absolute -inset-2 rounded-3xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-70 blur-lg group-hover:opacity-100 transition-opacity animate-pulse" />
             <div className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-indigo-400/50 shadow-2xl glass-card-3d p-1">
-              <img 
-                src={personalInfo.profilePicture || "/images/portfolio_3d_avatar.jpg"} 
-                alt={personalInfo.fullName || "Avatar"} 
+              <img
+                src={personalInfo.profilePicture || "/images/portfolio_3d_avatar.jpg"}
+                alt={personalInfo.fullName || "Avatar"}
                 className="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-110"
               />
             </div>
@@ -174,7 +174,7 @@ export const PortfolioPage = ({ resumeData, onEditResume }) => {
           </div>
 
           <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight">
-            Hi, I'm <span className={`bg-gradient-to-r ${accentGradient} bg-clip-text text-transparent`}>{personalInfo.fullName || "Alex Morgan"}</span>
+            Hi, I'm <span className={`bg-gradient-to-r ${accentGradient} bg-clip-text text-transparent`}>{personalInfo.fullName || "Subbu"}</span>
           </h1>
 
           <p className="text-xl sm:text-2xl font-bold opacity-90">
@@ -284,11 +284,10 @@ export const PortfolioPage = ({ resumeData, onEditResume }) => {
               <button
                 key={idx}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
-                  activeCategory === cat
-                    ? 'bg-indigo-600 text-white shadow-md'
-                    : 'bg-slate-900/60 text-slate-400 hover:text-white'
-                }`}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${activeCategory === cat
+                  ? 'bg-indigo-600 text-white shadow-md'
+                  : 'bg-slate-900/60 text-slate-400 hover:text-white'
+                  }`}
               >
                 {cat}
               </button>
@@ -321,7 +320,7 @@ export const PortfolioPage = ({ resumeData, onEditResume }) => {
             {experience.map((exp, idx) => (
               <div key={idx} className="relative space-y-3 glass-card-3d p-6 rounded-2xl border border-slate-800/80 hover:border-indigo-500/50 transition-all group">
                 <span className="absolute -left-[37px] top-6 w-4 h-4 rounded-full bg-gradient-to-r from-indigo-500 to-pink-500 border-4 border-slate-950 shadow-lg shadow-indigo-500/50 group-hover:scale-125 transition-transform" />
-                
+
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <h3 className="text-lg font-bold group-hover:text-indigo-300 transition-colors">{exp.role}</h3>
                   <span className={`text-xs font-semibold px-3 py-1 rounded-full border shadow-sm ${badgeStyle}`}>

@@ -21,6 +21,9 @@ export function App() {
             (p) => !p.title?.includes('OmniFlow') && !p.title?.includes('DevMetrics')
           );
         }
+        if (parsed.personalInfo && (parsed.personalInfo.fullName === 'Alex Morgan' || !parsed.personalInfo.fullName)) {
+          parsed.personalInfo.fullName = 'Subramanya';
+        }
         return parsed;
       } catch (e) {}
     }

@@ -1,6 +1,6 @@
 export const initialResumeData = {
   personalInfo: {
-    fullName: "subramanya",
+    fullName: "Subramanya",
     jobTitle: "Senior Full Stack Engineer & AI Architect",
     email: "subbusubburoyal41@gmail.com",
     phone: "7019624943",
@@ -83,7 +83,7 @@ export const initialResumeData = {
     recipientCompany: "Acme Tech Solutions",
     targetRole: "Senior Full Stack Engineer",
     hiringManager: "Hiring Team",
-    content: "Dear Hiring Team,\n\nI am writing to express my enthusiastic interest in the Senior Full Stack Engineer role at Acme Tech Solutions. With over 6 years of experience building high-throughput web applications, microservices, and AI-driven platforms, I am eager to bring my technical expertise to your team.\n\nThroughout my career, I have specialized in React, Node.js, TypeScript, and Cloud Architecture—reducing system latency by 45% and leading cross-functional teams to ship enterprise-grade products. I am particularly drawn to Acme Tech Solutions' vision for innovative software products.\n\nThank you for your time and consideration. I look forward to discussing how my background aligns with your engineering goals.\n\nSincerely,\nAlex Morgan"
+    content: "Dear Hiring Team,\n\nI am writing to express my enthusiastic interest in the Senior Full Stack Engineer role at Acme Tech Solutions. With over 6 years of experience building high-throughput web applications, microservices, and AI-driven platforms, I am eager to bring my technical expertise to your team.\n\nThroughout my career, I have specialized in React, Node.js, TypeScript, and Cloud Architecture—reducing system latency by 45% and leading cross-functional teams to ship enterprise-grade products. I am particularly drawn to Acme Tech Solutions' vision for innovative software products.\n\nThank you for your time and consideration. I look forward to discussing how my background aligns with your engineering goals.\n\nSincerely,\nSubramanya"
   },
   customSections: [
     {
@@ -104,7 +104,7 @@ export const initialResumeData = {
     spacing: "normal", // 'compact' | 'normal' | 'spacious'
     portfolioTheme: "dark-glass", // 'dark-glass' | 'cyberpunk' | 'minimal-light' | 'emerald'
     showQrCode: true,
-    qrCodeTarget: "https://alexmorgan.dev",
+    qrCodeTarget: "https://github.com/subramanyamahindrakar87-ai",
     showProfilePhoto: true
   }
 };
