@@ -296,11 +296,11 @@ export const PortfolioPage = ({ resumeData, onEditResume }) => {
           </div>
 
           {/* Skill Cards Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {filteredSkills.map((skill, sIdx) => (
-              <div key={sIdx} className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 flex items-center justify-between text-xs font-semibold transition-all">
-                <span>{skill}</span>
-                <Sparkles className="w-3.5 h-3.5 text-indigo-400 opacity-60" />
+              <div key={sIdx} className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-indigo-500/60 tilt-card-hover flex items-center justify-between text-xs font-bold transition-all shadow-md group">
+                <span className="group-hover:text-indigo-300 transition-colors">{skill}</span>
+                <Sparkles className="w-3.5 h-3.5 text-indigo-400 group-hover:scale-125 group-hover:rotate-45 transition-transform" />
               </div>
             ))}
           </div>
@@ -317,24 +317,24 @@ export const PortfolioPage = ({ resumeData, onEditResume }) => {
             <p className="text-xs opacity-70">Professional growth and roles held</p>
           </div>
 
-          <div className="space-y-6 relative border-l-2 border-slate-800 ml-3 pl-6">
+          <div className="space-y-8 relative border-l-2 border-indigo-500/30 ml-3 pl-6">
             {experience.map((exp, idx) => (
-              <div key={idx} className="relative space-y-2 group">
-                <span className="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full bg-indigo-500 border-4 border-slate-950 group-hover:scale-125 transition-transform" />
+              <div key={idx} className="relative space-y-3 glass-card-3d p-6 rounded-2xl border border-slate-800/80 hover:border-indigo-500/50 transition-all group">
+                <span className="absolute -left-[37px] top-6 w-4 h-4 rounded-full bg-gradient-to-r from-indigo-500 to-pink-500 border-4 border-slate-950 shadow-lg shadow-indigo-500/50 group-hover:scale-125 transition-transform" />
                 
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h3 className="text-base font-bold">{exp.role}</h3>
-                  <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border ${badgeStyle}`}>
+                  <h3 className="text-lg font-bold group-hover:text-indigo-300 transition-colors">{exp.role}</h3>
+                  <span className={`text-xs font-semibold px-3 py-1 rounded-full border shadow-sm ${badgeStyle}`}>
                     {exp.startDate} – {exp.current ? 'Present' : exp.endDate}
                   </span>
                 </div>
 
-                <p className="text-xs font-semibold opacity-75">{exp.company} • {exp.location}</p>
+                <p className="text-xs font-bold text-indigo-400/90">{exp.company} • {exp.location}</p>
 
                 {exp.description && (
-                  <ul className="list-disc list-outside ml-4 text-xs opacity-85 space-y-1 pt-1">
+                  <ul className="list-disc list-outside ml-4 text-xs opacity-85 space-y-1.5 pt-1">
                     {exp.description.map((bullet, bIdx) => (
-                      <li key={bIdx}>{bullet}</li>
+                      <li key={bIdx} className="leading-relaxed">{bullet}</li>
                     ))}
                   </ul>
                 )}
