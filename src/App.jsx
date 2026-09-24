@@ -14,7 +14,15 @@ export function App() {
   const [resumeData, setResumeData] = useState(() => {
     const saved = localStorage.getItem('ai_resume_builder_data');
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) {}
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed.projects && Array.isArray(parsed.projects)) {
+          parsed.projects = parsed.projects.filter(
+            (p) => !p.title?.includes('OmniFlow') && !p.title?.includes('DevMetrics')
+          );
+        }
+        return parsed;
+      } catch (e) {}
     }
     return initialResumeData;
   });

@@ -1,16 +1,16 @@
 export const initialResumeData = {
   personalInfo: {
-    fullName: "Alex Morgan",
+    fullName: "subramanya",
     jobTitle: "Senior Full Stack Engineer & AI Architect",
-    email: "alex.morgan@techforge.io",
-    phone: "+1 (555) 382-9102",
-    location: "San Francisco, CA",
-    website: "https://alexmorgan.dev",
-    linkedin: "https://linkedin.com/in/alexmorgan-tech",
-    github: "https://github.com/alexmorgan-dev",
-    twitter: "https://x.com/alexmorgan_dev",
-    customLink: "https://drive.google.com/your-portfolio-pdf",
-    profilePicture: "/images/portfolio_3d_avatar.jpg",
+    email: "subbusubburoyal41@gmail.com",
+    phone: "7019624943",
+    location: "belagavi, HR",
+    website: "",
+    linkedin: "https://www.linkedin.com/in/subramanyapm/",
+    github: "https://github.com/subramanyamahindrakar87-ai",
+    twitter: "",
+    customLink: "",
+    profilePicture: "",
     languages: "English (Native), Spanish (Professional Working), French (Basic)",
     summary: "High-impact Full Stack Engineer with 6+ years of experience designing scalable web applications, microservices, and AI-driven solutions. Proven track record of reducing latency by 45% and leading cross-functional teams to deliver enterprise products."
   },
@@ -62,24 +62,7 @@ export const initialResumeData = {
     { category: "Backend & Cloud", items: ["Node.js", "Express", "PostgreSQL", "MongoDB", "GCP", "Docker", "Redis"] },
     { category: "AI & Data Tools", items: ["Gemini API", "OpenAI SDK", "LangChain", "Vector DBs", "PyTorch Basics"] }
   ],
-  projects: [
-    {
-      id: "proj-1",
-      title: "OmniFlow AI - Smart Workflow Automation",
-      description: "An AI-powered task orchestrator that converts natural language commands into automated multi-step browser and API workflows.",
-      techStack: ["React", "TypeScript", "Node.js", "Gemini API", "Tailwind CSS"],
-      github: "https://github.com/alexmorgan-dev/omniflow-ai",
-      liveDemo: "https://omniflow-demo.app"
-    },
-    {
-      id: "proj-2",
-      title: "DevMetrics - Engineering Team Dashboard",
-      description: "Real-time engineering telemetry dashboard analyzing PR cycle time, deployment frequency, and system reliability metrics.",
-      techStack: ["Next.js", "PostgreSQL", "Recharts", "Docker", "Tailwind CSS"],
-      github: "https://github.com/alexmorgan-dev/devmetrics",
-      liveDemo: "https://devmetrics-live.io"
-    }
-  ],
+  projects: [],
   certifications: [
     {
       id: "cert-1",

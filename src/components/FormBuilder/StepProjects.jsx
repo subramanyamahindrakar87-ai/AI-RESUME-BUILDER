@@ -90,7 +90,7 @@ export const StepProjects = ({ data, onChange }) => {
                     type="text"
                     value={proj.title || ''}
                     onChange={(e) => updateItem(proj.id, 'title', e.target.value)}
-                    placeholder="OmniFlow AI"
+                    placeholder="e.g. AI Workflow Platform"
                     className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:outline-none focus:border-indigo-500"
                   />
                 </div>
